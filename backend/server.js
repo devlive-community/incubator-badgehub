@@ -3,6 +3,7 @@ const cors = require('cors');
 const routes = require('./routes');
 const config = require('./config');
 const setupPlugins = require("./config/plugins");
+const path = require('path');
 
 const app = express();
 
@@ -17,6 +18,9 @@ app.use((req, res, next) => {
 
 // 使用路由
 app.use('/', routes);
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '../frontend'));
 
 // 错误处理中间件
 app.use((err, req, res, next) => {

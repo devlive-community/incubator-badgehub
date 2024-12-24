@@ -6,10 +6,10 @@ class BadgeController {
         try {
             const {platform, owner, repo} = req.params;
 
-            if (!repo) {
+            if (!platform) {
                 const svg = await BadgeService.generateBadge({
-                    leftText: platform,
-                    rightText: owner
+                    leftText: owner,
+                    rightText: repo
                 });
 
                 return res.send(svg);
