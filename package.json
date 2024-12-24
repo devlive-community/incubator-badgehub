@@ -1,0 +1,18 @@
+{
+  "name": "badgehub",
+  "version": "2024.1.0",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "start": "node backend/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "view-shadcn-ui": "^2024.5.3",
+    "vue": "^3.2.0"
+  },
+  "devDependencies": {
+    "@vue/cli-service": "^5.0.0"
+  }
+}

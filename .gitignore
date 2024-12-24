@@ -1,0 +1,9 @@
+# IntelliJ
+.idea
+*.iml
+out
+gen
+
+# Node
+pnpm-lock.yaml
+node_modules
