@@ -7,3 +7,4 @@ gen
 # Node
 pnpm-lock.yaml
 node_modules
+depcheck-output.json

@@ -1,45 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="0" height="20" preserveAspectRatio="xMidYMid meet">
+<svg xmlns="http://www.w3.org/2000/svg" width="{totalWidth}" height="20">
     <defs>
         <style>
-            text { font-size: 11px; font-family: DejaVu Sans,Verdana,Geneva,sans-serif; }
+            text {
+            font-size: 11px;
+            font-family: DejaVu Sans,Verdana,Geneva,sans-serif;
+            fill: #fff;
+            dominant-baseline: central;
+            }
         </style>
     </defs>
-
     <g>
-        <rect id="leftBg" height="20" fill="{leftColor}" />
-        <rect id="rightBg" height="20" fill="{rightColor}" />
-
-        <g fill="#fff" text-anchor="start">
-            <text x="8" y="14">{leftText}</text>
-            <text class="right-text" y="14">{rightText}</text>
-        </g>
+        <rect width="{leftWidth}" height="20" fill="{leftColor}" />
+        <rect x="{leftWidth}" width="{rightWidth}" height="20" fill="{rightColor}" />
+        <text x="{leftPadding}" y="10">{leftText}</text>
+        <text x="{rightTextX}" y="10">{rightText}</text>
     </g>
-
-    <script type="text/javascript"><![CDATA[
-        function updateBadgeSize() {
-            const leftText = document.querySelector('text');
-            const rightText = document.querySelector('.right-text');
-
-            // 获取文本宽度
-            const leftTextWidth = leftText.getComputedTextLength();
-            const rightTextWidth = rightText.getComputedTextLength();
-
-            const padding = 8;
-            const leftWidth = leftTextWidth + (padding * 2);
-            const rightWidth = rightTextWidth + (padding * 2);
-
-            // 设置 SVG 的实际宽度
-            const svg = document.querySelector('svg');
-            svg.setAttribute('width', leftWidth + rightWidth);
-
-            // 设置背景和文本位置
-            const leftBg = document.getElementById('leftBg');
-            const rightBg = document.getElementById('rightBg');
-            leftBg.setAttribute('width', leftWidth);
-            rightBg.setAttribute('width', rightWidth);
-            rightBg.setAttribute('x', leftWidth);
-            rightText.setAttribute('x', leftWidth + padding);
-        }
-        updateBadgeSize();
-    ]]></script>
 </svg>

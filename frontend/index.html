@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badge Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50">
+
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-3xl font-bold mb-8">Badge Hub</h1>
+
+    <!-- 示例展示 -->
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <h2 class="text-xl font-semibold mb-4">示例徽章</h2>
+        <div class="space-y-4">
+            <div class="flex items-center gap-4">
+                <img src="/badge/1-2.svg" alt="build badge" class="h-5">
+                <button onclick="copyToClipboard('build-passing')"
+                        class="px-3 py-1 text-sm border rounded hover:bg-gray-50">
+                    复制 Markdown
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 使用说明 -->
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <h2 class="text-xl font-semibold mb-4">如何使用</h2>
+        <p class="text-gray-600 mb-4">使用以下格式的 URL 来生成徽章：</p>
+        <code id="baseUrl" class="block bg-gray-100 p-3 rounded mb-4 text-sm">
+            /badge/&lt;左侧文本&gt;-&lt;右侧文本&gt;.svg
+        </code>
+    </div>
+</div>
+
+<script>
+    // 获取当前 URL
+    const baseUrl = window.location.origin;
+
+    // 设置基础 URL 显示
+    document.getElementById('baseUrl').textContent =
+        `${baseUrl}/badge/<左侧文本>-<右侧文本>.svg`;
+
+    function copyToClipboard(path) {
+        const markdown = `![badge](${baseUrl}/badge/${path}.svg)`;
+        navigator.clipboard.writeText(markdown).then(() => {
+            alert('Markdown 已复制到剪贴板');
+        });
+    }
+</script>
+</body>
+</html>
