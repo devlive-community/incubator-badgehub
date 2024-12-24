@@ -16,7 +16,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// 使用路由
+app.use('/static', express.static(path.resolve(__dirname, '../frontend/static')));
 app.use('/', routes);
 
 app.set('view engine', 'ejs');
