@@ -12,16 +12,10 @@
     </style>
 </head>
 <body class="bg-white">
-<div class="min-h-screen flex flex-col">
-    <%- include('header', { title }) %>
-    <div class="flex flex-1">
-        <%- include('sidebar', { currentPath }) %>
-        <main class="flex-1 px-2 py-2">
-            <div class="mx-auto bg-white rounded-lg p-6">
-                <%- include(`../pages/${page}`) %>
-            </div>
-        </main>
+<main class="min-h-screen flex items-center justify-center px-2 py-2">
+    <div class="mx-auto rounded-lg p-6 w-full">
+        <%- include(`../pages/${page}`) %>
     </div>
-</div>
+</main>
 </body>
 </html>
