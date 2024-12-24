@@ -3,6 +3,7 @@
   "version": "2024.1.0",
   "scripts": {
     "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
     "pm2:start": "pm2 start ecosystem.config.js",
     "pm2:start:prod": "pm2 start ecosystem.config.js --env production",
     "pm2:stop": "pm2 stop ecosystem.config.js",
@@ -12,11 +13,13 @@
     "pm2:monit": "pm2 monit"
   },
   "dependencies": {
+    "axios": "^1.7.9",
     "canvas": "^3.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "nodemon": "^3.0.2",
     "pm2": "^5.3.0"
   }
 }

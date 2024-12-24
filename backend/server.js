@@ -1,10 +1,12 @@
-// server/server.js
 const express = require('express');
 const cors = require('cors');
 const routes = require('./routes');
 const config = require('./config');
+const setupPlugins = require("./config/plugins");
 
 const app = express();
+
+setupPlugins();
 
 // 中间件
 app.use(cors());

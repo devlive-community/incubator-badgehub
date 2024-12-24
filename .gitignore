@@ -8,3 +8,4 @@ gen
 pnpm-lock.yaml
 node_modules
 depcheck-output.json
+.env
