@@ -7,6 +7,9 @@ module.exports = {
     plugins: {
         github: {
             token: '' || process.env.GITHUB_TOKEN
+        },
+        gitee: {
+            token: '' || process.env.GITEE_TOKEN
         }
     },
 

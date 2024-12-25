@@ -1,15 +1,16 @@
 const config = require('../config');
-const GitHubPlugin = require('../plugins/github');
 const BadgeService = require('../services/badge');
+const GitHubPlugin = require('../plugins/github');
+const GiteePlugin = require('../plugins/gitee');
 
 const setupPlugins = () => {
     const githubToken = config.plugins.github.token;
-    if (!githubToken) {
-        throw new Error('GITHUB_TOKEN environment variable is required');
-    }
+    const giteeToken = config.plugins.gitee.token;
 
     const githubPlugin = new GitHubPlugin(githubToken);
     BadgeService.registerPlugin(githubPlugin);
+    const giteePlugin = new GiteePlugin(giteeToken);
+    BadgeService.registerPlugin(giteePlugin);
 };
 
 module.exports = setupPlugins;
