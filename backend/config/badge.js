@@ -1,9 +1,9 @@
 const defaultConfig = {
     // 基础样式配置
     badgeStyles: [
+        {value: 'default', label: 'Default'},
         {value: '3d', label: '3D'},
         {value: '3dimensional', label: '3Dimensional'},
-        {value: 'default', label: 'Default'},
         {value: 'flat', label: 'Flat'},
         {value: 'glass', label: 'Glass'},
         {value: 'gradient', label: 'Gradient'},

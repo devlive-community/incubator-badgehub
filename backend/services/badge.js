@@ -79,6 +79,19 @@ class BadgeService {
         return ctx.measureText(text).width;
     }
 
+    static async fetchAndEncodeImage(url) {
+        try {
+            const response = await fetch(url);
+            const arrayBuffer = await response.arrayBuffer();
+            const base64 = Buffer.from(arrayBuffer).toString('base64');
+            const mimeType = response.headers.get('content-type') || 'image/png';
+            return `data:${mimeType};base64,${base64}`;
+        } catch (error) {
+            console.error('Error fetching logo:', error);
+            return null;
+        }
+    }
+
     static async generateBadge(params) {
         console.log('Original params:', params);
         const {
@@ -91,6 +104,11 @@ class BadgeService {
             style = 'default',
             logo
         } = params;
+
+        let logoData = logo;
+        if (logo) {
+            logoData = await this.fetchAndEncodeImage(logo);
+        }
 
         // 解码所有颜色值
         const leftColor = this.decodeColor(rawLeftColor);
@@ -122,7 +140,7 @@ class BadgeService {
 
             const imageX = style === 'glass' || style === 'rounded' ? 6 : 4;
 
-            const imageTag = logo ? `<image width="14" height="14" y="${imageY}" x="${imageX}" href="${logo}" />` : '';
+            const imageTag = logoData ? `<image width="14" height="14" y="${imageY}" x="${imageX}" href="${logoData}" />` : '';
 
             const template = await this.templateLoader.getTemplate(style);
             return template
