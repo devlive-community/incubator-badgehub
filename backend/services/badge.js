@@ -25,8 +25,27 @@ class BadgeService {
         return plugin;
     }
 
-    static async getMetrics(platform, owner, repo) {
+    static async getMetrics(platform, owner, repo, type = null) {
         const plugin = this.getPlugin(platform);
+
+        // 如果type有效且是单个类型，只获取指定类型的数据
+        if (type) {
+            console.log(`Getting ${type} data for ${owner}/${repo}`);
+            let value;
+            switch (type) {
+                case 'stars':
+                    value = await plugin.getStarCount(owner, repo);
+                    return {stars: value};
+                case 'forks':
+                    value = await plugin.getForkCount(owner, repo);
+                    return {forks: value};
+                case 'watches':
+                    value = await plugin.getWatchCount(owner, repo);
+                    return {watches: value};
+            }
+        }
+
+        // 如果type无效或未指定，获取所有数据
         const [stars, forks, watches] = await Promise.all([
             plugin.getStarCount(owner, repo),
             plugin.getForkCount(owner, repo),

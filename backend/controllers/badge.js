@@ -6,17 +6,18 @@ class BadgeController {
         try {
             const {platform, owner, repo} = req.params;
 
+            // 处理无平台的情况
             if (!platform) {
                 const svg = await BadgeService.generateBadge({
                     leftText: owner,
                     rightText: repo
                 });
-
                 return res.send(svg);
             }
 
             const {type = 'stars'} = req.query;
 
+            // 验证类型是否支持
             const supportedTypes = ['stars', 'forks', 'watches'];
             if (!supportedTypes.includes(type)) {
                 const svg = await BadgeService.generateBadge({
@@ -26,17 +27,17 @@ class BadgeController {
                 return res.send(svg);
             }
 
-            const metrics = await BadgeService.getMetrics(platform, owner, repo);
-            const badgeConfig = {
-                stars: {left: 'stars', right: metrics.stars},
-                forks: {left: 'forks', right: metrics.forks},
-                watches: {left: 'watchers', right: metrics.watches}
-            };
+            // 获取指标数据
+            const metrics = await BadgeService.getMetrics(platform, owner, repo, type);
 
-            const {left: leftText, right: rightText} = badgeConfig[type];
+            // 根据type构建徽章配置
+            const leftText = type === 'watches' ? 'watchers' : type;
+            const rightText = String(metrics[type]);
+
+            // 生成徽章
             const svg = await BadgeService.generateBadge({
                 leftText,
-                rightText: String(rightText)
+                rightText
             });
 
             res.send(svg);
