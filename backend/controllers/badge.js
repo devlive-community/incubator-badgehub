@@ -10,7 +10,6 @@ class BadgeController {
                 repo,
                 format = 'default'
             } = req.params;
-            console.log(req.params)
 
             // 处理无平台的情况
             if (!platform) {
