@@ -21,7 +21,8 @@
         <rect width="{totalWidth}" height="22" fill="{leftColor}" rx="11" ry="11" />
         <rect x="{leftWidth}" width="{rightWidth}" height="22" fill="{rightColor}" rx="11" ry="11" />
         <rect width="{totalWidth}" height="22" fill="url(#glassGrad)" rx="11" ry="11" />
-        <text x="{leftPadding}" y="11">{leftText}</text>
-        <text x="{rightTextX}" y="11">{rightText}</text>
+        {imageTag}
+        <text x="{leftPadding}" y="10">{leftText}</text>
+        <text x="{rightTextX}" y="10">{rightText}</text>
     </g>
 </svg>

@@ -21,6 +21,7 @@
     <g class="neon">
         <rect width="{leftWidth}" height="20" fill="{leftColor}" rx="5" ry="5"/>
         <rect x="{leftWidth}" width="{rightWidth}" height="20" fill="{rightColor}" rx="5" ry="5"/>
+        {imageTag}
         <text x="{leftPadding}" y="10">{leftText}</text>
         <text x="{rightTextX}" y="10">{rightText}</text>
     </g>

@@ -19,6 +19,7 @@
         <rect width="{leftWidth}" height="20" fill="{leftColor}" rx="3" ry="3"/>
         <rect x="{leftWidth}" width="{rightWidth}" height="20" fill="{rightColor}" rx="3" ry="3"/>
         <rect width="{totalWidth}" height="10" fill="url(#metalGrad)" rx="3" ry="3"/>
+        {imageTag}
         <text x="{leftPadding}" y="10">{leftText}</text>
         <text x="{rightTextX}" y="10">{rightText}</text>
     </g>

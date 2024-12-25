@@ -8,7 +8,7 @@ class BadgeController {
                 platform,
                 owner,
                 repo,
-                format = 'default'
+                style = 'default'
             } = req.params;
 
             // 处理无平台的情况

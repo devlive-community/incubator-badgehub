@@ -13,7 +13,8 @@
     <g>
         <rect width="{totalWidth}" height="24" fill="#1F2937" />
         <rect x="{leftWidth}" width="{rightWidth}" height="24" fill="{rightColor}" />
-        <text x="{leftPadding}" y="12">{leftText}</text>
-        <text x="{rightTextX}" y="12">{rightText}</text>
+        {imageTag}
+        <text x="{leftPadding}" y="11">{leftText}</text>
+        <text x="{rightTextX}" y="11">{rightText}</text>
     </g>
 </svg>

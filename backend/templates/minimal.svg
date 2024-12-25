@@ -12,6 +12,7 @@
     </defs>
     <g>
         <rect width="{totalWidth}" height="20" fill="#F6F8FA" rx="6" ry="6"/>
+        {imageTag}
         <text x="{leftPadding}" y="10" class="label">{leftText}</text>
         <text x="{rightTextX}" y="10" class="value">{rightText}</text>
     </g>

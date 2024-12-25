@@ -22,6 +22,7 @@
     <g>
         <rect width="{leftWidth}" height="20" fill="url(#leftGrad)" />
         <rect x="{leftWidth}" width="{rightWidth}" height="20" fill="url(#rightGrad)" />
+        {imageTag}
         <text x="{leftPadding}" y="10">{leftText}</text>
         <text x="{rightTextX}" y="10">{rightText}</text>
     </g>

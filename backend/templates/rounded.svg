@@ -12,7 +12,8 @@
     <g>
         <rect width="{totalWidth}" height="20" fill="{leftColor}" rx="10" ry="10" />
         <rect x="{leftWidth}" width="{rightWidth}" height="20" fill="{rightColor}" rx="10" ry="10" />
-        <text x="{leftPadding}" y="10">{leftText}</text>
-        <text x="{rightTextX}" y="10">{rightText}</text>
+        {imageTag}
+        <text x="{leftPadding}" y="9">{leftText}</text>
+        <text x="{rightTextX}" y="9">{rightText}</text>
     </g>
 </svg>

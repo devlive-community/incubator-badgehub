@@ -51,7 +51,7 @@
 
         <!-- 边缘高光 -->
         <rect width="{totalWidth}" height="1" fill="#ffffff" opacity="0.15" />
-
+        {imageTag}
         <!-- 文本 -->
         <text x="{leftPadding}" y="10">{leftText}</text>
         <text x="{rightTextX}" y="10">{rightText}</text>

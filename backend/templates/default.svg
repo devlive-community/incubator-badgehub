@@ -10,9 +10,11 @@
         </style>
     </defs>
     <g>
+        <!-- 背景矩形 -->
         <rect width="{leftWidth}" height="20" fill="{leftColor}" />
         <rect x="{leftWidth}" width="{rightWidth}" height="20" fill="{rightColor}" />
-        <text x="{leftPadding}" y="10">{leftText}</text>
-        <text x="{rightTextX}" y="10">{rightText}</text>
+        {imageTag}
+        <text x="{leftPadding}" y="9">{leftText}</text>
+        <text x="{rightTextX}" y="9">{rightText}</text>
     </g>
 </svg>

@@ -70,19 +70,35 @@ class BadgeService {
             rightColor = '#4c1',
             leftColorDark = '#333',
             rightColorDark = '#069',
-            format = 'default'
+            style = 'default',
+            logo
         } = params;
 
         try {
             const leftTextWidth = Math.ceil(this.measureText(leftText));
             const rightTextWidth = Math.ceil(this.measureText(rightText));
 
-            const leftWidth = leftTextWidth + (this.PADDING * 2);
+            // 如果有logo，添加logo的宽度(14px)和间距(4px)
+            const logoWidth = logo ? 14 : 0;
+
+            // 修改leftWidth计算，包含logo空间
+            const leftWidth = leftTextWidth + (this.PADDING * 2) + logoWidth;
             const rightWidth = rightTextWidth + (this.PADDING * 2);
             const totalWidth = leftWidth + rightWidth;
+
+            // 如果有logo，文字需要往后偏移
+            const leftPadding = this.PADDING + (logo ? logoWidth : 0);
             const rightTextX = leftWidth + this.PADDING;
 
-            const template = await this.templateLoader.getTemplate(format);
+            let imageY = style === 'flat' ? 5 : 3;
+            imageY = style.startsWith('3d') ? 3 : imageY;
+            imageY = style === 'glass' ? 4 : imageY;
+
+            const imageX = style === 'glass' || style === 'rounded' ? 6 : 4;
+
+            const imageTag = logo ? `<image width="14" height="14" y="${imageY}" x="${imageX}" href="${logo}" />` : '';
+
+            const template = await this.templateLoader.getTemplate(style);
             return template
                 .replace(/\{leftColor\}/g, leftColor)
                 .replace(/\{rightColor\}/g, rightColor)
@@ -91,9 +107,10 @@ class BadgeService {
                 .replace(/\{leftWidth\}/g, leftWidth)
                 .replace(/\{rightWidth\}/g, rightWidth)
                 .replace(/\{totalWidth\}/g, totalWidth)
-                .replace(/\{leftPadding\}/g, this.PADDING)
+                .replace(/\{leftPadding\}/g, leftPadding)
                 .replace(/\{rightTextX\}/g, rightTextX)
                 .replace(/\{leftColorDark\}/g, leftColorDark)
+                .replace(/\{imageTag\}/g, imageTag || '')
                 .replace(/\{rightColorDark\}/g, rightColorDark);
         }
         catch (error) {
