@@ -1,0 +1,134 @@
+<main class="py-12 px-4">
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="border-b border-gray-100 px-8 py-4">
+                <h1 class="text-xl font-semibold text-gray-900">创建徽章</h1>
+                <p class="mt-1 text-sm text-gray-500">自定义徽章样式并获取引用链接</p>
+            </div>
+
+            <div class="p-8">
+                <form id="badgeForm" class="space-y-6">
+                    <div class="space-y-2">
+                        <label for="badgeText" class="block text-sm font-medium text-gray-700">左侧徽章文本</label>
+                        <input type="text"
+                               id="badgeLeftText"
+                               name="badgeLeftText"
+                               class="block w-full rounded-md border-0 ring-1 ring-inset ring-gray-200 py-3 px-4 text-gray-900 placeholder:text-gray-400 hover:ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors sm:text-sm sm:leading-6"
+                               placeholder="输入左侧徽章文本"
+                               required/>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="badgeText" class="block text-sm font-medium text-gray-700">右侧徽章文本</label>
+                        <input type="text"
+                               id="badgeRightText"
+                               name="badgeRightText"
+                               class="block w-full rounded-md border-0 ring-1 ring-inset ring-gray-200 py-3 px-4 text-gray-900 placeholder:text-gray-400 hover:ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors sm:text-sm sm:leading-6"
+                               placeholder="输入右侧徽章文本"
+                               required/>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <div class="pt-2">
+                        <button type="submit"
+                                class="w-full flex justify-center items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                            生成徽章
+                            <svg class="ml-2 -mr-1 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Badge Links -->
+                <div id="badgeLinks" class="hidden mt-8 pt-6 border-t border-gray-100">
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const badgeForm = document.getElementById('badgeForm');
+    const badgeLeftText = document.getElementById('badgeLeftText');
+    const badgeRightText = document.getElementById('badgeRightText');
+    const badgeLinks = document.getElementById('badgeLinks');
+
+    // 绑定事件监听器的函数
+    function bindEventListeners() {
+        // Tab 切换
+        document.querySelectorAll('[role="tab"]').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // 移除所有 tab 的激活状态
+                document.querySelectorAll('[role="tab"]').forEach(t => {
+                    t.dataset.active = 'false';
+                });
+                // 设置当前 tab 的激活状态
+                tab.dataset.active = 'true';
+
+                // 隐藏所有面板
+                document.querySelectorAll('[role="tabpanel"]').forEach(panel => {
+                    panel.classList.add('hidden');
+                });
+                // 显示当前选中的面板
+                const targetPanel = document.getElementById(tab.dataset.target);
+                if (targetPanel) {
+                    targetPanel.classList.remove('hidden');
+                }
+            });
+        });
+
+        // 复制功能
+        document.querySelectorAll('input[readonly]').forEach(input => {
+            input.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(input.value);
+                    showToast('已复制到剪贴板!');
+                }
+                catch (err) {
+                    console.error('复制失败:', err);
+                    showToast('复制失败，请手动复制');
+                }
+            });
+        });
+    }
+
+    // Toast 提示函数
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        if (!toast) {
+            return;
+        }
+
+        toast.textContent = message;
+        toast.style.transform = 'translateY(0)';
+        toast.style.opacity = '1';
+
+        setTimeout(() => {
+            toast.style.transform = 'translateY(100%)';
+            toast.style.opacity = '0';
+        }, 2000);
+    }
+
+    badgeForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        // 获取输入值
+        const leftText = badgeLeftText.value;
+        const rightText = badgeRightText.value;
+
+        // 使用fetch获取渲染后的badge组件
+        const response = await fetch(`/badge/preview?platform=${encodeURIComponent(leftText)}&owner=${encodeURIComponent(rightText)}`);
+        const html = await response.text();
+
+        // 更新内容并显示
+        badgeLinks.innerHTML = html;
+        badgeLinks.classList.remove('hidden');
+
+        // 重新绑定事件监听器
+        bindEventListeners();
+    });
+
+    // 页面加载完成后也绑定一次事件监听器
+    document.addEventListener('DOMContentLoaded', bindEventListeners);
+</script>
