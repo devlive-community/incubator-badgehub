@@ -4,6 +4,7 @@ const router = express.Router();
 const routes = [
     {path: '/', page: 'home', title: '首页'},
     {path: '/generator/basic', page: 'generator/basic', title: '基础徽章'},
+    {path: '/generator/github', page: 'generator/github', title: 'GitHub 徽章'},
     {path: '/templates', page: 'templates', title: '模板管理'},
     {path: '/history', page: 'history', title: '生成历史'},
     {path: '/admin', page: 'admin', title: '管理后台'}
