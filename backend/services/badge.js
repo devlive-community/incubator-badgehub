@@ -68,7 +68,9 @@ class BadgeService {
             rightText,
             leftColor = '#555',
             rightColor = '#4c1',
-            style = 'default'
+            leftColorDark = '#333',
+            rightColorDark = '#069',
+            format = 'default'
         } = params;
 
         try {
@@ -80,7 +82,7 @@ class BadgeService {
             const totalWidth = leftWidth + rightWidth;
             const rightTextX = leftWidth + this.PADDING;
 
-            const template = await this.templateLoader.getTemplate(style);
+            const template = await this.templateLoader.getTemplate(format);
             return template
                 .replace(/\{leftColor\}/g, leftColor)
                 .replace(/\{rightColor\}/g, rightColor)
@@ -90,7 +92,9 @@ class BadgeService {
                 .replace(/\{rightWidth\}/g, rightWidth)
                 .replace(/\{totalWidth\}/g, totalWidth)
                 .replace(/\{leftPadding\}/g, this.PADDING)
-                .replace(/\{rightTextX\}/g, rightTextX);
+                .replace(/\{rightTextX\}/g, rightTextX)
+                .replace(/\{leftColorDark\}/g, leftColorDark)
+                .replace(/\{rightColorDark\}/g, rightColorDark);
         }
         catch (error) {
             console.error(`Error generating badge: ${error.message}`);

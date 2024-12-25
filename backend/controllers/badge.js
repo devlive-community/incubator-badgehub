@@ -4,7 +4,13 @@ class BadgeController {
     static async generateBadge(req, res) {
         res.setHeader('Content-Type', 'image/svg+xml');
         try {
-            const {platform, owner, repo} = req.params;
+            const {
+                platform,
+                owner,
+                repo,
+                format = 'default'
+            } = req.params;
+            console.log(req.params)
 
             // 处理无平台的情况
             if (!platform) {
@@ -16,37 +22,47 @@ class BadgeController {
                 });
                 return res.send(svg);
             }
+            else if (platform) {
+                const {type = 'stars'} = req.query;
 
-            const {type = 'stars'} = req.query;
+                // 验证类型是否支持
+                const supportedTypes = ['stars', 'forks', 'watches'];
+                if (!supportedTypes.includes(type)) {
+                    const svg = await BadgeService.generateBadge({
+                        leftText: 'type',
+                        rightText: 'unsupported',
+                        ...req.params,
+                        ...req.query
+                    });
+                    return res.send(svg);
+                }
 
-            // 验证类型是否支持
-            const supportedTypes = ['stars', 'forks', 'watches'];
-            if (!supportedTypes.includes(type)) {
+                // 获取指标数据
+                const metrics = await BadgeService.getMetrics(platform, owner, repo, type);
+
+                // 根据type构建徽章配置
+                const leftText = type === 'watches' ? 'watchers' : type;
+                const rightText = String(metrics[type]);
+
+                // 生成徽章
                 const svg = await BadgeService.generateBadge({
-                    leftText: 'type',
+                    leftText,
+                    rightText,
+                    ...req.params,
+                    ...req.query
+                });
+
+                res.send(svg);
+            }
+            else {
+                const svg = await BadgeService.generateBadge({
+                    leftText: 'platform',
                     rightText: 'unsupported',
                     ...req.params,
                     ...req.query
                 });
-                return res.send(svg);
+                res.send(svg);
             }
-
-            // 获取指标数据
-            const metrics = await BadgeService.getMetrics(platform, owner, repo, type);
-
-            // 根据type构建徽章配置
-            const leftText = type === 'watches' ? 'watchers' : type;
-            const rightText = String(metrics[type]);
-
-            // 生成徽章
-            const svg = await BadgeService.generateBadge({
-                leftText,
-                rightText,
-                ...req.params,
-                ...req.query
-            });
-
-            res.send(svg);
         }
         catch (error) {
             console.error(`Error handling badge request:`, error);

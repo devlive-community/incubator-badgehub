@@ -32,7 +32,7 @@ class Template {
         if (!this.templates.has(name)) {
             await this.loadTemplates();
             if (!this.templates.has(name)) {
-                throw new Error(`Template '${name}' not found`);
+                return this.templates.get('default');
             }
         }
         return this.templates.get(name);
