@@ -134,11 +134,23 @@ class BadgeGenerator {
 
                   <div class="pt-2">
                     <button type="submit"
-                            class="w-full flex justify-center items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                      生成徽章
-                      <svg class="ml-2 -mr-1 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                      </svg>
+                            id="submitButton"
+                            class="w-full flex justify-center items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                      <span class="flex items-center">
+                        <span class="normal-state flex items-center">
+                          生成徽章
+                          <svg class="ml-2 -mr-1 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                          </svg>
+                        </span>
+                        <span class="loading-state hidden flex items-center">
+                          <svg class="animate-spin -ml-1 mr-3 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          生成中...
+                        </span>
+                      </span>
                     </button>
                   </div>
                 </form>
@@ -305,10 +317,28 @@ class BadgeGenerator {
         bindTabEvents();
         bindCopyEvents();
       }
+      
+      function setButtonLoading(isLoading) {
+          const button = document.getElementById('submitButton');
+          const normalState = button.querySelector('.normal-state');
+          const loadingState = button.querySelector('.loading-state');
+          
+          button.disabled = isLoading;
+          
+          if (isLoading) {
+            normalState.classList.add('hidden');
+            loadingState.classList.remove('hidden');
+          } else {
+            normalState.classList.remove('hidden');
+            loadingState.classList.add('hidden');
+          }
+        }
 
       // 绑定表单提交事件
       badgeForm.addEventListener('submit', async function(event) {
         event.preventDefault();
+        
+        setButtonLoading(true);
 
         const values = getFormValues();
         const params = buildUrlParams(values);
@@ -326,7 +356,10 @@ class BadgeGenerator {
           });
         } catch (error) {
           console.error('Error fetching badge preview:', error);
-        }
+      } finally {
+        // 恢复按钮状态
+        setButtonLoading(false);
+      }
       });
 
       // 初始化事件监听
