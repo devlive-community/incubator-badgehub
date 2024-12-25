@@ -10,7 +10,9 @@ class BadgeController {
             if (!platform) {
                 const svg = await BadgeService.generateBadge({
                     leftText: owner,
-                    rightText: repo
+                    rightText: repo,
+                    ...req.params,
+                    ...req.query
                 });
                 return res.send(svg);
             }
@@ -22,7 +24,9 @@ class BadgeController {
             if (!supportedTypes.includes(type)) {
                 const svg = await BadgeService.generateBadge({
                     leftText: 'type',
-                    rightText: 'unsupported'
+                    rightText: 'unsupported',
+                    ...req.params,
+                    ...req.query
                 });
                 return res.send(svg);
             }
@@ -37,7 +41,9 @@ class BadgeController {
             // 生成徽章
             const svg = await BadgeService.generateBadge({
                 leftText,
-                rightText
+                rightText,
+                ...req.params,
+                ...req.query
             });
 
             res.send(svg);
@@ -46,7 +52,9 @@ class BadgeController {
             console.error(`Error handling badge request:`, error);
             const svg = await BadgeService.generateBadge({
                 leftText: 'error',
-                rightText: error.message
+                rightText: error.message,
+                ...req.params,
+                ...req.query
             });
             res.send(svg);
         }

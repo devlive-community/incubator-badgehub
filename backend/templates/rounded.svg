@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="{totalWidth}" height="20">
+    <defs>
+        <style>
+            text {
+            font-size: 11px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            fill: #fff;
+            dominant-baseline: central;
+            }
+        </style>
+    </defs>
+    <g>
+        <rect width="{totalWidth}" height="20" fill="{leftColor}" rx="10" ry="10" />
+        <rect x="{leftWidth}" width="{rightWidth}" height="20" fill="{rightColor}" rx="10" ry="10" />
+        <text x="{leftPadding}" y="10">{leftText}</text>
+        <text x="{rightTextX}" y="10">{rightText}</text>
+    </g>
+</svg>

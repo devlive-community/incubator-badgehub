@@ -1,0 +1,17 @@
+{
+  "watch": [
+    "src/",
+    "public/",
+    "views/",
+    "routes/",
+    "*.js",
+    "*.svg"
+  ],
+  "ext": "js,json,ejs,svg",
+  "ignore": [
+    "node_modules/",
+    ".git/",
+    "dist/"
+  ],
+  "verbose": true
+}

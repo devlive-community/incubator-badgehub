@@ -21,7 +21,7 @@ Badgehub 是一个专为用户设计的徽标生成平台，提供直观且强�
 ### Basic Badge
 
 ```
-https://your-domain.com/badge/<OWNER>/<REPO>.svg
+https://your-domain.com/api/badge/<OWNER>/<REPO>.svg
 ```
 
 ## Development
