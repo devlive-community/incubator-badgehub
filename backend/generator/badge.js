@@ -223,40 +223,66 @@ class BadgeGenerator {
         return params;
       }
 
-      // 绑定表单提交事件
-      badgeForm.addEventListener('submit', async function(event) {
-        event.preventDefault();
+      // Tab 切换功能
+      function bindTabEvents() {
+        const tabButtons = document.querySelectorAll('[role="tab"]');
+        const tabPanels = document.querySelectorAll('[role="tabpanel"]');
 
-        const values = getFormValues();
-        const params = buildUrlParams(values);
-        
-        try {
-          const response = await fetch(\`${previewUrl}?\${params.toString()}\`);
-          const html = await response.text();
+        tabButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            // 重置所有 tab 状态
+            tabButtons.forEach(btn => {
+              btn.setAttribute('data-active', 'false');
+              btn.classList.remove('text-blue-600');
+              btn.classList.add('text-gray-500');
+            });
 
-          badgeLinks.innerHTML = html;
-          badgeLinks.classList.remove('hidden');
+            // 重置所有面板
+            tabPanels.forEach(panel => panel.classList.add('hidden'));
 
-          // 重新绑定复制功能
-          bindEventListeners();
-        } catch (error) {
-          console.error('Error fetching badge preview:', error);
-        }
-      });
+            // 激活当前 tab
+            button.setAttribute('data-active', 'true');
+            button.classList.remove('text-gray-500');
+            button.classList.add('text-blue-600');
 
-      // 复制功能
-      function bindEventListeners() {
-        document.querySelectorAll('input[readonly]').forEach(input => {
-          input.addEventListener('click', async () => {
-            try {
-              await navigator.clipboard.writeText(input.value);
-              showToast('已复制到剪贴板!');
-            } catch (err) {
-              console.error('复制失败:', err);
-              showToast('复制失败，请手动复制');
+            // 显示对应面板
+            const targetId = button.getAttribute('data-target');
+            const targetPanel = document.getElementById(targetId);
+            if (targetPanel) {
+              targetPanel.classList.remove('hidden');
             }
           });
         });
+      }
+
+      // 复制功能
+      function bindCopyEvents() {
+        document.querySelectorAll('input[readonly]').forEach(input => {
+          const copyButton = input.nextElementSibling;
+          
+          // 为输入框添加点击事件
+          input.addEventListener('click', async () => {
+            await copyToClipboard(input.value);
+          });
+
+          // 为复制按钮添加点击事件
+          if (copyButton) {
+            copyButton.addEventListener('click', async () => {
+              await copyToClipboard(input.value);
+            });
+          }
+        });
+      }
+
+      // 复制到剪贴板并显示提示
+      async function copyToClipboard(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          showToast('已复制到剪贴板!');
+        } catch (err) {
+          console.error('复制失败:', err);
+          showToast('复制失败，请手动复制');
+        }
       }
 
       // Toast 提示
@@ -273,6 +299,35 @@ class BadgeGenerator {
           toast.style.opacity = '0';
         }, 2000);
       }
+
+      // 绑定所有事件监听器
+      function bindEventListeners() {
+        bindTabEvents();
+        bindCopyEvents();
+      }
+
+      // 绑定表单提交事件
+      badgeForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const values = getFormValues();
+        const params = buildUrlParams(values);
+        
+        try {
+          const response = await fetch(\`${previewUrl}?\${params.toString()}\`);
+          const html = await response.text();
+
+          badgeLinks.innerHTML = html;
+          badgeLinks.classList.remove('hidden');
+
+          // 使用 requestAnimationFrame 确保 DOM 已更新
+          requestAnimationFrame(() => {
+            bindEventListeners();
+          });
+        } catch (error) {
+          console.error('Error fetching badge preview:', error);
+        }
+      });
 
       // 初始化事件监听
       document.addEventListener('DOMContentLoaded', bindEventListeners);
