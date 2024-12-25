@@ -1,4 +1,6 @@
 const express = require('express');
+const BadgeGenerator = require('../generator/badge');
+const badgeConfig = require('../config/badge');
 const router = express.Router();
 
 const routes = [
@@ -13,11 +15,13 @@ const routes = [
 
 // 📌 普通页面路由
 routes.forEach(({path, page, title}) => {
+    const generator = new BadgeGenerator(badgeConfig);
     router.get(path, (req, res, next) => {
         try {
             res.render('layout/base', {
                 page,
                 title,
+                generator: generator,
                 currentPath: req.path
             });
         }

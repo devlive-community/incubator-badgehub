@@ -13,6 +13,23 @@ class BadgeService {
     static FONT_SIZE = 11;
     static FONT_FAMILY = 'DejaVu Sans,Verdana,Geneva,sans-serif';
 
+    // 添加颜色解码方法
+    static decodeColor(color) {
+        if (!color) {
+            return color;
+        }
+        // 处理 URL 编码的颜色值（%23）
+        if (color.startsWith('%23')) {
+            return '#' + color.slice(3);
+        }
+        // 处理已经是 # 开头的颜色值
+        if (color.startsWith('#')) {
+            return color;
+        }
+        // 如果是普通的颜色值，直接返回
+        return color;
+    }
+
     static registerPlugin(plugin) {
         this.plugins.set(plugin.getName(), plugin);
     }
@@ -63,16 +80,25 @@ class BadgeService {
     }
 
     static async generateBadge(params) {
+        console.log('Original params:', params);
         const {
             leftText,
             rightText,
-            leftColor = '#555',
-            rightColor = '#4c1',
-            leftColorDark = '#333',
-            rightColorDark = '#069',
+            leftColor: rawLeftColor = '#555',
+            rightColor: rawRightColor = '#4c1',
+            leftColorDark: rawLeftColorDark = '#333',
+            rightColorDark: rawRightColorDark = '#069',
             style = 'default',
             logo
         } = params;
+
+        // 解码所有颜色值
+        const leftColor = this.decodeColor(rawLeftColor);
+        const rightColor = this.decodeColor(rawRightColor);
+        const leftColorDark = this.decodeColor(rawLeftColorDark);
+        const rightColorDark = this.decodeColor(rawRightColorDark);
+
+        console.log('Decoded colors:', {leftColor, rightColor, leftColorDark, rightColorDark});
 
         try {
             const leftTextWidth = Math.ceil(this.measureText(leftText));
