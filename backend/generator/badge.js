@@ -37,9 +37,9 @@ class BadgeGenerator {
         const typesHtml = platformConfig.badgeTypes ? `
       <div class="space-y-2">
         <label class="block text-sm font-medium text-gray-700">徽章类型</label>
-        <div class="grid grid-cols-4 gap-3">
+        <div class="grid grid-cols-6 gap-3">
           ${platformConfig.badgeTypes.map((type, index) => `
-            <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm hover:border-blue-500 focus:outline-none">
+            <label class="relative flex cursor-pointer rounded-lg border bg-white p-2 shadow-sm hover:border-blue-500 focus:outline-none">
               <input type="radio"
                      name="badgeType"
                      value="${type.value}"
@@ -47,7 +47,7 @@ class BadgeGenerator {
                      ${index === 0 ? 'checked' : ''}>
               <div class="flex w-full">
                 <div class="flex flex-col items-center justify-center w-full space-y-1">
-                  <span class="font-medium text-gray-900">${type.label}</span>
+                  <span class="font-medium text-xs text-gray-900">${type.label}</span>
                   <img src="/api/badge/${type.value}/100.svg" alt="${type.label}">
                 </div>
               </div>
@@ -62,7 +62,7 @@ class BadgeGenerator {
       <div class="${containerClass}">
         <div class="flex justify-between items-start space-x-2">
           <!-- 左侧表单 -->
-          <div class="w-1/2">
+          <div class="w-2/3">
             <div class="bg-white rounded-sm shadow-sm border border-gray-100 overflow-hidden">
               <div class="border-b border-gray-100 px-4 py-4">
                 <h1 class="text-xl font-semibold text-gray-900">创建${platformConfig.name || ''}徽章</h1>
@@ -159,7 +159,7 @@ class BadgeGenerator {
           </div>
 
           <!-- 右侧链接区域 -->
-          <div class="w-1/2">
+          <div class="w-1/3">
             <div id="${linksId}" class="hidden border-gray-100"></div>
           </div>
         </div>

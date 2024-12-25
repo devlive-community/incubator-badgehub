@@ -21,7 +21,19 @@ const defaultConfig = {
             badgeTypes: [
                 {value: 'stars', label: 'Star'},
                 {value: 'forks', label: 'Fork'},
-                {value: 'watches', label: 'Watch'}
+                {value: 'watches', label: 'Watch'},
+                {value: 'commits', label: 'Commit'},
+                {value: 'contributors', label: 'Contributors'},
+                {value: 'branches', label: 'Branches'},
+                {value: 'tags', label: 'Tags'},
+                {value: 'licenses', label: 'Licenses'},
+                {value: 'latest_version', label: 'Latest Version'},
+                {value: 'latest_release_time', label: 'Latest Release Time'},
+                {value: 'latest_commit_time', label: 'Latest Commit Time'},
+                {value: 'open_issues', label: 'Open Issues'},
+                {value: 'closed_issues', label: 'Closed Issues'},
+                {value: 'opened_pull_requests', label: 'Open Pull Requests'},
+                {value: 'closed_pull_requests', label: 'Closed Pull Requests'}
             ],
             previewUrl: '/badge/preview',
             urlParams: {

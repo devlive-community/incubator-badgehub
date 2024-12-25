@@ -59,6 +59,44 @@ class BadgeService {
                 case 'watches':
                     value = await plugin.getWatchCount(owner, repo);
                     return {watches: value};
+                case 'commits':
+                    value = await plugin.getCommitsCount(owner, repo);
+                    return {commits: value};
+                case 'contributors':
+                    value = await plugin.getContributorsCount(owner, repo);
+                    return {contributors: value};
+                case 'licenses':
+                    value = await plugin.getLicense(owner, repo);
+                    return {licenses: value};
+                case 'branches':
+                    value = await plugin.getBranchesCount(owner, repo);
+                    return {branches: value};
+                case 'tags':
+                    value = await plugin.getTagsCount(owner, repo);
+                    return {tags: value};
+                case 'latest_version':
+                    value = await plugin.getLatestVersion(owner, repo);
+                    return {latest_version: value};
+                case 'latest_release_time':
+                    value = await plugin.getLatestReleaseTime(owner, repo);
+                    return {latest_release_time: value};
+                case 'latest_commit_time':
+                    value = await plugin.getLatestCommitTime(owner, repo);
+                    return {latest_commit_time: value};
+                case 'open_issues':
+                    value = await plugin.getOpenIssuesCount(owner, repo);
+                    return {open_issues: value};
+                case 'closed_issues':
+                    value = await plugin.getClosedIssuesCount(owner, repo);
+                    return {closed_issues: value};
+                case 'opened_pull_requests':
+                    value = await plugin.getOpenPullRequestsCount(owner, repo);
+                    return {opened_pull_requests: value};
+                case 'closed_pull_requests':
+                    value = await plugin.getClosedPullRequestsCount(owner, repo);
+                    return {closed_pull_requests: value};
+                default:
+                    throw new Error(`Invalid type: ${type}`);
             }
         }
 
@@ -86,7 +124,8 @@ class BadgeService {
             const base64 = Buffer.from(arrayBuffer).toString('base64');
             const mimeType = response.headers.get('content-type') || 'image/png';
             return `data:${mimeType};base64,${base64}`;
-        } catch (error) {
+        }
+        catch (error) {
             console.error('Error fetching logo:', error);
             return null;
         }

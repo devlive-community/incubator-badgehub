@@ -14,6 +14,30 @@ class BadgePlugin {
 
     async getWatchCount(owner, repo) { throw new Error('Not implemented'); }
 
+    async getCommitsCount(owner, repo) { throw new Error('Not implemented'); }
+
+    async getLatestVersion(owner, repo) { throw new Error('Not implemented'); }
+
+    async getLatestReleaseTime(owner, repo) { throw new Error('Not implemented'); }
+
+    async getLatestCommitTime(owner, repo) { throw new Error('Not implemented'); }
+
+    async getOpenIssuesCount(owner, repo) { throw new Error('Not implemented'); }
+
+    async getClosedIssuesCount(owner, repo) { throw new Error('Not implemented'); }
+
+    async getOpenPullRequestsCount(owner, repo) { throw new Error('Not implemented'); }
+
+    async getClosedPullRequestsCount(owner, repo) { throw new Error('Not implemented'); }
+
+    async getContributorsCount(owner, repo) { throw new Error('Not implemented'); }
+
+    async getLicense(owner, repo) { throw new Error('Not implemented'); }
+
+    async getBranchesCount(owner, repo) { throw new Error('Not implemented'); }
+
+    async getTagsCount(owner, repo) { throw new Error('Not implemented'); }
+
     getName() { throw new Error('Not implemented'); }
 
     getBaseUrl() { throw new Error('Not implemented'); }

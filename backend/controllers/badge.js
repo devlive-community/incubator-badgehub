@@ -25,7 +25,10 @@ class BadgeController {
                 const {type = 'stars'} = req.query;
 
                 // 验证类型是否支持
-                const supportedTypes = ['stars', 'forks', 'watches'];
+                const supportedTypes = ['stars', 'forks', 'watches', 'commits', 'contributors', 'licenses', 'branches', 'tags',
+                                        'latest_version', 'latest_release_time', 'latest_commit_time',
+                                        'open_issues', 'closed_issues',
+                                        'opened_pull_requests', 'closed_pull_requests',];
                 if (!supportedTypes.includes(type)) {
                     const svg = await BadgeService.generateBadge({
                         leftText: 'type',
