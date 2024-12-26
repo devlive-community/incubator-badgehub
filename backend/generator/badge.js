@@ -62,7 +62,7 @@ class BadgeGenerator {
       <div class="${containerClass}">
         <div class="flex justify-between items-start space-x-2">
           <!-- 左侧表单 -->
-          <div class="w-2/3">
+          <div class="w-3/5">
             <div class="bg-white rounded-sm shadow-sm border border-gray-100 overflow-hidden">
               <div class="border-b border-gray-100 px-4 py-4">
                 <h1 class="text-xl font-semibold text-gray-900">创建${platformConfig.name || ''}徽章</h1>
@@ -159,8 +159,12 @@ class BadgeGenerator {
           </div>
 
           <!-- 右侧链接区域 -->
-          <div class="w-1/3">
-            <div id="${linksId}" class="hidden border-gray-100"></div>
+          <div class="w-2/5">
+            <div id="${linksId}" class="border-gray-100">
+                <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow">
+                    <p class="font-normal text-gray-500">在右侧配置相关数据点击生成徽章，可以在下方查看预览效果 </p>
+                </div>
+            </div>
           </div>
         </div>
       </div>
@@ -348,7 +352,6 @@ class BadgeGenerator {
           const html = await response.text();
 
           badgeLinks.innerHTML = html;
-          badgeLinks.classList.remove('hidden');
 
           // 使用 requestAnimationFrame 确保 DOM 已更新
           requestAnimationFrame(() => {
