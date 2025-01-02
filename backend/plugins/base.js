@@ -150,7 +150,13 @@ class BadgePlugin {
      */
     async getCountForStar(owner, repo) { throw new Error('Not implemented'); }
 
-    async getForkCount(owner, repo) { throw new Error('Not implemented'); }
+    /**
+     * 获取 fork 数
+     * @param owner 仓库归属用户
+     * @param repo 仓库名称
+     * @returns {Promise<void>}
+     */
+    async getCountForFork(owner, repo) { throw new Error('Not implemented'); }
 
     async getWatchCount(owner, repo) { throw new Error('Not implemented'); }
 

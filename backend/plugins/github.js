@@ -111,10 +111,15 @@ query {
         });
     }
 
-    async getForkCount(owner, repo) {
-        return this.withRetry(async () => {
-            const data = await this.request(`/repos/${owner}/${repo}`);
-            return data.forks_count;
+    async getCountForFork(owner, repo) {
+        return this.withCache(owner, repo, 'stars', async () => {
+            const query = this.formatQuery(owner, repo, 'forkCount');
+
+            const response = await this.graphqlRequest({
+                query
+            });
+
+            return response?.repository?.forkCount || '解析结果失败';
         });
     }
 

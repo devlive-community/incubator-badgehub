@@ -54,7 +54,7 @@ class BadgeService {
                     value = await plugin.getCountForStar(owner, repo);
                     return {stars: value};
                 case 'forks':
-                    value = await plugin.getForkCount(owner, repo);
+                    value = await plugin.getCountForFork(owner, repo);
                     return {forks: value};
                 case 'watches':
                     value = await plugin.getWatchCount(owner, repo);
