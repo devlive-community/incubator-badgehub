@@ -69,7 +69,7 @@ class BadgeGenerator {
               </div>
 
               <div class="p-4">
-                <form id="${formId}" class="space-y-2">
+                <form id="${formId}" class="space-y-3">
                   <div class="grid grid-cols-2 gap-2">
                     <div class="space-y-2">
                       <label for="ownerText" class="block text-sm font-medium text-gray-700">组织 | 用户</label>
@@ -161,7 +161,7 @@ class BadgeGenerator {
           <!-- 右侧链接区域 -->
           <div class="w-2/5">
             <div id="${linksId}" class="border-gray-100">
-                <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow">
+                <div class="p-6 bg-white border border-gray-200 rounded-lg shadow">
                     <p class="font-normal text-gray-500">在右侧配置相关数据点击生成徽章，可以在下方查看预览效果 </p>
                 </div>
             </div>

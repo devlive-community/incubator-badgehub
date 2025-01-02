@@ -3,14 +3,20 @@ const BadgePlugin = require("./base");
 
 class GitHubPlugin extends BadgePlugin {
     constructor(token) {
-        super(token);
+        super(token)
+
+        const headers = {
+            'Accept': 'application/vnd.github.v3+json',
+            'User-Agent': 'BadgeHub'
+        }
+
+        if (token) {
+            headers['Authorization'] = `token ${token}`
+        }
+
         this.client = axios.create({
             baseURL: 'https://api.github.com',
-            headers: {
-                'Authorization': `token ${token}`,
-                'Accept': 'application/vnd.github.v3+json',
-                'User-Agent': 'BadgeHub'
-            }
+            headers: headers
         });
     }
 
@@ -20,10 +26,12 @@ class GitHubPlugin extends BadgePlugin {
     }
 
     async getStarCount(owner, repo) {
-        return this.withRetry(async () => {
-            const data = await this.request(`/repos/${owner}/${repo}`);
-            return data.stargazers_count;
-        });
+        return this.withCache(owner, repo, 'stars',
+            async () => this.withRetry(async () => {
+                const data = await this.request(`/repos/${owner}/${repo}`);
+                return data.stargazers_count;
+            })
+        );
     }
 
     async getForkCount(owner, repo) {

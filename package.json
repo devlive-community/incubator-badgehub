@@ -17,7 +17,9 @@
     "canvas": "^3.0.0",
     "cors": "^2.8.5",
     "ejs": "^3.1.10",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.2",
