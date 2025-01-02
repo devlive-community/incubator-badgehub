@@ -182,7 +182,7 @@ class GitHubPlugin extends BadgePlugin {
         );
     }
 
-    async getOpenIssuesCount(owner, repo) {
+    async getCountForOpenIssues(owner, repo) {
         const query = `
             query {
                 repository(owner: "${owner}", name: "${repo}") {
@@ -199,6 +199,26 @@ class GitHubPlugin extends BadgePlugin {
             'issues',
             query,
             ['repository', 'openIssues', 'totalCount']
+        )
+    }
+
+    async getCountForClosedIssues(owner, repo) {
+        const query = `
+            query {
+                repository(owner: "${owner}", name: "${repo}") {
+                    closedIssues: issues(states: CLOSED) {
+                        totalCount
+                    }
+                }
+            }
+        `
+
+        return await this.extractGitHubData(
+            owner,
+            repo,
+            'closed_issues',
+            query,
+            ['repository', 'closedIssues', 'totalCount']
         )
     }
 

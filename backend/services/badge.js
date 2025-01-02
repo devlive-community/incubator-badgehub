@@ -59,14 +59,17 @@ class BadgeService {
                     description: response.value
                 };
             case 'open_issues':
-                response = await plugin.getOpenIssuesCount(owner, repo);
+                response = await plugin.getCountForOpenIssues(owner, repo);
                 return {
                     label: 'Open Issues',
                     description: response.value
                 };
             case 'closed_issues':
-                value = await plugin.getClosedIssuesCount(owner, repo);
-                return {closed_issues: value};
+                response = await plugin.getCountForClosedIssues(owner, repo);
+                return {
+                    label: 'Closed Issues',
+                    description: response.value
+                };
             case 'contributors':
                 value = await plugin.getContributorsCount(owner, repo);
                 return {contributors: value};
