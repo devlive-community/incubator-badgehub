@@ -48,17 +48,17 @@ class BadgeService {
         // 如果type有效且是单个类型，只获取指定类型的数据
         if (type) {
             // console.log(`Getting ${type} data for ${owner}/${repo}`);
-            let value;
+            let response;
             switch (type) {
                 case 'stars':
-                    value = await plugin.getCountForStar(owner, repo);
-                    return {stars: value};
+                    response = await plugin.getCountForStar(owner, repo);
+                    return {value: response.value};
                 case 'forks':
-                    value = await plugin.getCountForFork(owner, repo);
-                    return {forks: value};
-                case 'watches':
-                    value = await plugin.getWatchCount(owner, repo);
-                    return {watches: value};
+                    response = await plugin.getCountForFork(owner, repo);
+                    return {value: response.value};
+                case 'watchers':
+                    response = await plugin.getCountForWatch(owner, repo);
+                    return {value: response.value};
                 case 'commits':
                     value = await plugin.getCommitsCount(owner, repo);
                     return {commits: value};

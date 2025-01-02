@@ -21,7 +21,7 @@ const defaultConfig = {
             badgeTypes: [
                 {value: 'stars', label: 'Star'},
                 {value: 'forks', label: 'Fork'},
-                {value: 'watches', label: 'Watch'},
+                {value: 'watchers', label: 'Watch'},
                 {value: 'commits', label: 'Commit'},
                 {value: 'contributors', label: 'Contributors'},
                 {value: 'branches', label: 'Branches'},
@@ -45,7 +45,7 @@ const defaultConfig = {
             badgeTypes: [
                 {value: 'stars', label: 'Star'},
                 {value: 'forks', label: 'Fork'},
-                {value: 'watches', label: 'Watch'}
+                {value: 'watchers', label: 'Watch'}
             ],
             previewUrl: '/badge/preview',
             urlParams: {

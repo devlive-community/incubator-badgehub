@@ -25,10 +25,13 @@ class BadgeController {
                 const {type = 'stars'} = req.query;
 
                 // 验证类型是否支持
-                const supportedTypes = ['stars', 'forks', 'watches', 'commits', 'contributors', 'licenses', 'branches', 'tags',
-                                        'latest_version', 'latest_release_time', 'latest_commit_time',
-                                        'open_issues', 'closed_issues',
-                                        'opened_pull_requests', 'closed_pull_requests',];
+                const supportedTypes = [
+                    'stars',
+                    'forks',
+                    'watchers', 'commits', 'contributors', 'licenses', 'branches', 'tags',
+                    'latest_version', 'latest_release_time', 'latest_commit_time',
+                    'open_issues', 'closed_issues',
+                    'opened_pull_requests', 'closed_pull_requests',];
                 if (!supportedTypes.includes(type)) {
                     const svg = await BadgeService.generateBadge({
                         leftText: 'type',
@@ -40,11 +43,13 @@ class BadgeController {
                 }
 
                 // 获取指标数据
-                const metrics = await BadgeService.getMetrics(platform, owner, repo, type);
+                const response = await BadgeService.getMetrics(platform, owner, repo, type);
+
+                console.log('只表示指标数据:', response);
 
                 // 根据type构建徽章配置
                 const leftText = type === 'watches' ? 'watchers' : type;
-                const rightText = String(metrics[type]);
+                const rightText = response.value;
 
                 // 生成徽章
                 const svg = await BadgeService.generateBadge({

@@ -29,6 +29,7 @@ class GitHubPlugin extends BadgePlugin {
     }
 
     async graphqlRequest({query, variables = {}}) {
+        this.logger.info(`GitHub GraphQL 请求参数 ${query}`);
         const headers = {
             'Accept': 'application/vnd.github.v3+json',
             'Content-Type': 'application/json',
@@ -89,45 +90,69 @@ class GitHubPlugin extends BadgePlugin {
         });
     }
 
-    formatQuery(owner, repo, query) {
-        return `
-query {
-    repository(owner: "${owner}", name: "${repo}") {
-        ${query}
-    }
-}
-        `;
+    async extractGitHubData(owner, repo, type, query, extractPath) {
+        return this.withCache(owner, repo, type, async () => {
+            const response = await this.graphqlRequest({query});
+
+            const value = extractPath.reduce((obj, key) => obj?.[key], response);
+            return {value: value ?? '解析结果失败'};
+        });
     }
 
     async getCountForStar(owner, repo) {
-        return this.withCache(owner, repo, 'stars', async () => {
-            const query = this.formatQuery(owner, repo, 'stargazerCount');
+        const query = `
+            query {
+                repository(owner: "${owner}", name: "${repo}") {
+                    stargazerCount
+                }
+            }
+        `
 
-            const response = await this.graphqlRequest({
-                query
-            });
-
-            return response?.repository?.stargazerCount || '解析结果失败';
-        });
+        return await this.extractGitHubData(
+            owner,
+            repo,
+            'stars',
+            query,
+            ['repository', 'stargazerCount']
+        );
     }
 
     async getCountForFork(owner, repo) {
-        return this.withCache(owner, repo, 'stars', async () => {
-            const query = this.formatQuery(owner, repo, 'forkCount');
+        const query = `
+            query {
+                repository(owner: "${owner}", name: "${repo}") {
+                    forkCount
+                }
+            }
+        `
 
-            const response = await this.graphqlRequest({
-                query
-            });
-
-            return response?.repository?.forkCount || '解析结果失败';
-        });
+        return await this.extractGitHubData(
+            owner,
+            repo,
+            'forks',
+            query,
+            ['repository', 'forkCount']
+        );
     }
 
-    async getWatchCount(owner, repo) {
-        return this.withRetry(async () => {
-            const data = await this.request(`/repos/${owner}/${repo}`);
-            return data.subscribers_count;
-        });
+    async getCountForWatch(owner, repo) {
+        const query = `
+                query {
+                    repository(owner: "${owner}", name: "${repo}") {
+                        watchers {
+                            totalCount
+                        }
+                    }
+                }
+            `
+
+        return await this.extractGitHubData(
+            owner,
+            repo,
+            'watchers',
+            query,
+            ['repository', 'watchers', 'totalCount']
+        );
     }
 
     async getCommitsCount(owner, repo) {

@@ -25,11 +25,12 @@ class BadgePlugin {
     async ensureCacheDir() {
         if (!this._cacheInitialized) {
             try {
-                this.logger.info(`初始化缓冲目录 ${this.cacheDir}`);
                 if (!fs.existsSync(this.cacheDir)) {
+                    this.logger.info(`初始化缓冲目录 ${this.cacheDir}`);
                     fs.mkdirSync(this.cacheDir, {recursive: true});
                 }
                 this._cacheInitialized = true;
+                this.logger.info(`缓冲目录 ${this.cacheDir} 初始化成功`);
             }
             catch (error) {
                 this.logger.error({err: error}, '缓冲目录创建失败');
@@ -158,7 +159,13 @@ class BadgePlugin {
      */
     async getCountForFork(owner, repo) { throw new Error('Not implemented'); }
 
-    async getWatchCount(owner, repo) { throw new Error('Not implemented'); }
+    /**
+     * 获取 watch 数
+     * @param owner 仓库归属用户
+     * @param repo 仓库名称
+     * @returns {Promise<void>}
+     */
+    async getCountForWatch(owner, repo) { throw new Error('Not implemented'); }
 
     async getCommitsCount(owner, repo) { throw new Error('Not implemented'); }
 
