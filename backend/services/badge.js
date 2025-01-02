@@ -47,11 +47,11 @@ class BadgeService {
 
         // 如果type有效且是单个类型，只获取指定类型的数据
         if (type) {
-            console.log(`Getting ${type} data for ${owner}/${repo}`);
+            // console.log(`Getting ${type} data for ${owner}/${repo}`);
             let value;
             switch (type) {
                 case 'stars':
-                    value = await plugin.getStarCount(owner, repo);
+                    value = await plugin.getCountForStar(owner, repo);
                     return {stars: value};
                 case 'forks':
                     value = await plugin.getForkCount(owner, repo);
@@ -132,7 +132,7 @@ class BadgeService {
     }
 
     static async generateBadge(params) {
-        console.log('Original params:', params);
+        // console.log('Original params:', params);
         const {
             leftText,
             rightText,
@@ -155,7 +155,7 @@ class BadgeService {
         const leftColorDark = this.decodeColor(rawLeftColorDark);
         const rightColorDark = this.decodeColor(rawRightColorDark);
 
-        console.log('Decoded colors:', {leftColor, rightColor, leftColorDark, rightColorDark});
+        // console.log('Decoded colors:', {leftColor, rightColor, leftColorDark, rightColorDark});
 
         try {
             const leftTextWidth = Math.ceil(this.measureText(leftText));

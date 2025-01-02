@@ -46,8 +46,26 @@ class BadgePlugin {
     async withRetry(fn, retries = 3) {
         for (let i = 0; i < retries; i++) {
             try {
-                this.logger.info(`当前执行第 ${i + 1} / ${retries} 次执行函数 ${getFnName(fn)}`);
-                return await fn();
+                this.logger.info(`当前执行函数 ${getFnName(fn)}`);
+                const result = await fn();
+
+                // 如果函数返回了 isRetry 字段，根据它决定是否重试
+                if (result && typeof result === 'object' && 'isRetry' in result) {
+                    if (result.isRetry) {
+                        if (i === retries - 1) {
+                            this.logger.error({err: result}, `执行函数 ${getFnName(fn)} 失败，达到最大重试次数`);
+                            throw new Error('达到最大重试次数');
+                        }
+                        this.logger.info(`当前执行第 ${i + 1} / ${retries} 次执行函数 ${getFnName(fn)}`);
+                        await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, i)));
+                        continue;
+                    }
+
+                    this.logger.info(`执行函数 ${getFnName(fn)} 已设置为不重试，跳过重试`);
+                    return result.data;
+                }
+
+                return result;
             }
             catch (error) {
                 this.logger.error({err: error}, `执行函数 ${getFnName(fn)} 失败，尝试重试`);
@@ -61,7 +79,7 @@ class BadgePlugin {
 
     /**
      * 自动缓冲查询到的数据
-     * @param owner 仓库所有者
+     * @param owner 仓库归属用户
      * @param repo 仓库名称
      * @param type 数据类型
      * @param fn 执行的具体函数
@@ -72,42 +90,65 @@ class BadgePlugin {
 
         const timestamp = Date.now();
         const cacheKey = `${owner}-${repo}-${type}`;
-
         const cacheFile = path.join(this.cacheDir, `${cacheKey}.json`);
 
         // 尝试读取缓存
         try {
+            this.logger.info(`正在尝试读取缓存 ${cacheKey}`);
             const data = fs.readFileSync(cacheFile, 'utf8');
             const cache = JSON.parse(data);
             if (Date.now() - cache.timestamp <= this.cacheTime) {
+                this.logger.info(`缓冲 ${cacheKey} 已被命中，返回缓存数据`);
                 return cache.data;
             }
         }
         catch (error) {
+            this.logger.warn({err: error}, `读取缓存 ${cacheKey} 失败`);
             // 缓存不存在或已过期
         }
 
-        // 执行实际函数获取数据
+        this.logger.info(`缓存 ${cacheKey} 不存在，开始执行函数 ${getFnName(fn)}`);
         const result = await fn();
-        console.log('获取数据:', result);
 
-        // 写入缓存
         try {
+            this.logger.info(`正在写入缓存 ${cacheKey}`);
             fs.writeFileSync(cacheFile, JSON.stringify({
                 timestamp: timestamp,
                 data: result
             }));
+            this.logger.info(`写入缓存 ${cacheKey} 成功`);
         }
         catch (error) {
-            console.error('Failed to write cache:', error);
+            this.logger.warn({err: error}, `写入缓存 ${cacheKey} 失败`);
         }
 
         return result;
     }
 
+    /**
+     * 标记插件名字，每个插件都有自己唯一的标记
+     */
+    getName() { throw new Error('Not implemented'); }
+
+    /**
+     * 获取插件的基础 URL
+     */
+    getBaseUrl() { throw new Error('Not implemented'); }
+
+    /**
+     * 发送请求获取数据
+     * @param path 请求路径
+     * @returns {Promise<void>}
+     */
     async request(path) { throw new Error('Not implemented'); }
 
-    async getStarCount(owner, repo) { throw new Error('Not implemented'); }
+    /**
+     * 获取 star 数
+     * @param owner 仓库归属用户
+     * @param repo 仓库名称
+     * @returns {Promise<void>}
+     */
+    async getCountForStar(owner, repo) { throw new Error('Not implemented'); }
 
     async getForkCount(owner, repo) { throw new Error('Not implemented'); }
 
@@ -137,9 +178,7 @@ class BadgePlugin {
 
     async getTagsCount(owner, repo) { throw new Error('Not implemented'); }
 
-    getName() { throw new Error('Not implemented'); }
 
-    getBaseUrl() { throw new Error('Not implemented'); }
 }
 
 module.exports = BadgePlugin;

@@ -1,4 +1,5 @@
 const axios = require('axios');
+const {getInstance} = require("../utils/logger");
 const BadgePlugin = require("./base");
 
 class GitHubPlugin extends BadgePlugin {
@@ -18,6 +19,8 @@ class GitHubPlugin extends BadgePlugin {
             baseURL: 'https://api.github.com',
             headers: headers
         });
+
+        this.logger = getInstance();
     }
 
     async request(path) {
@@ -25,13 +28,87 @@ class GitHubPlugin extends BadgePlugin {
         return data;
     }
 
-    async getStarCount(owner, repo) {
-        return this.withCache(owner, repo, 'stars',
-            async () => this.withRetry(async () => {
-                const data = await this.request(`/repos/${owner}/${repo}`);
-                return data.stargazers_count;
-            })
-        );
+    async graphqlRequest({query, variables = {}}) {
+        const headers = {
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json',
+            'User-Agent': 'BadgeHub-GraphQL-Client'
+        };
+
+        if (this.token) {
+            headers['Authorization'] = `token ${this.token}`;
+        }
+
+        return this.withRetry(async () => {
+            const response = await fetch('https://api.github.com/graphql', {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({
+                    query,
+                    variables
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.status >= 400) {
+                this.logger.error({
+                    status: response.status,
+                    statusText: response.statusText,
+                    data
+                }, 'GitHub GraphQL HTTP 请求失败');
+
+                return {
+                    isRetry: data.message.indexOf('rate limit exceeded') === -1,
+                    data: response.statusText === 'rate limit exceeded' ? '请求次数已达到限制, 建议切换 GitHub Token 或者等待一段时间后重试' : response.statusText,
+                    error: new Error(`GitHub GraphQL HTTP 请求失败: ${response.status} ${response.statusText}`)
+                };
+            }
+
+            // 截取 GraphQL 错误信息
+            if (data?.errors?.length > 0) {
+                this.logger.error({
+                    errors: data.errors
+                }, 'GitHub GraphQL 参数异常');
+                return {
+                    isRetry: false,
+                    data: data.errors[0].message
+                };
+
+                return {
+                    isRetry: false,
+                    data: data.errors[0].message,
+                    error: new Error(`GitHub GraphQL 参数异常: ${response.status} ${response.statusText}`)
+                };
+            }
+
+            return {
+                isRetry: false,
+                data: data.data
+            };
+        });
+    }
+
+    formatQuery(owner, repo, query) {
+        return `
+query {
+    repository(owner: "${owner}", name: "${repo}") {
+        ${query}
+    }
+}
+        `;
+    }
+
+    async getCountForStar(owner, repo) {
+        return this.withCache(owner, repo, 'stars', async () => {
+            const query = this.formatQuery(owner, repo, 'stargazerCount');
+
+            const response = await this.graphqlRequest({
+                query
+            });
+
+            return response?.repository?.stargazerCount || '解析结果失败';
+        });
     }
 
     async getForkCount(owner, repo) {
