@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const BadgeController = require('../controllers/badge');
 
-router.get('/:owner/:repo.svg', BadgeController.generateBadge);
-router.get('/:platform/:owner/:repo.svg', BadgeController.generateBadge);
+const badge = new BadgeController();
+
+router.get('/:owner/:repo.svg', badge.generateBadge);
+router.get('/:platform/:owner/:repo.svg', badge.generateBadge);
 
 module.exports = router;

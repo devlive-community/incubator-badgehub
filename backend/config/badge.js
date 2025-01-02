@@ -2,16 +2,6 @@ const defaultConfig = {
     // 基础样式配置
     badgeStyles: [
         {value: 'default', label: 'Default'},
-        {value: '3d', label: '3D'},
-        {value: '3dimensional', label: '3Dimensional'},
-        {value: 'flat', label: 'Flat'},
-        {value: 'glass', label: 'Glass'},
-        {value: 'gradient', label: 'Gradient'},
-        {value: 'metallic', label: 'Metallic'},
-        {value: 'minimal', label: 'Minimal'},
-        {value: 'neno', label: 'Neno'},
-        {value: 'rounded', label: 'Rounded'},
-        {value: 'textured', label: 'Textured'}
     ],
 
     // 平台相关配置

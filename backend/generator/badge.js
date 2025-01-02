@@ -94,21 +94,21 @@ class BadgeGenerator {
 
                   <div class="grid grid-cols-2 gap-2">
                     <div class="space-y-2">
-                        <label for="leftColorText" class="block text-sm font-medium text-gray-700">左侧颜色</label>
+                        <label for="labelColorText" class="block text-sm font-medium text-gray-700">标签颜色</label>
                         <input type="text"
-                               id="leftColorText"
-                               name="leftColorText"
+                               id="labelColorText"
+                               name="labelColorText"
                                class="block w-full rounded-md border-0 ring-1 ring-inset ring-gray-200 py-2 px-4 text-gray-900 placeholder:text-gray-400 hover:ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors sm:text-sm sm:leading-6"
-                               placeholder="请输入左侧颜色，默认值：#555"/>
+                               placeholder="请输入标签颜色，默认值：#555"/>
                     </div>
 
                     <div class="space-y-2">
-                        <label for="rightColorText" class="block text-sm font-medium text-gray-700">右侧颜色</label>
+                        <label for="descriptionColorText" class="block text-sm font-medium text-gray-700">描述颜色</label>
                         <input type="text"
-                               id="rightColorText"
-                               name="rightColorText"
+                               id="descriptionColorText"
+                               name="descriptionColorText"
                                class="block w-full rounded-md border-0 ring-1 ring-inset ring-gray-200 py-2 px-4 text-gray-900 placeholder:text-gray-400 hover:ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors sm:text-sm sm:leading-6"
-                               placeholder="请输入左侧颜色，默认值：#4c1"/>
+                               placeholder="请输入描述颜色，默认值：#4c1"/>
                     </div>
                 </div>
 
@@ -189,8 +189,8 @@ class BadgeGenerator {
       const elements = {
         owner: document.getElementById('ownerText'),
         repo: document.getElementById('repoText'),
-        leftColor: document.getElementById('leftColorText'),
-        rightColor: document.getElementById('rightColorText'),
+        labelColor: document.getElementById('labelColorText'),
+        descriptionColor: document.getElementById('descriptionColorText'),
         logo: document.getElementById('logoText')
       };
       const badgeLinks = document.getElementById('${linksId}');
