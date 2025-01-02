@@ -182,6 +182,26 @@ class GitHubPlugin extends BadgePlugin {
         );
     }
 
+    async getOpenIssuesCount(owner, repo) {
+        const query = `
+            query {
+                repository(owner: "${owner}", name: "${repo}") {
+                    openIssues: issues(states: OPEN) {
+                        totalCount
+                    }
+                }
+            }
+        `
+
+        return await this.extractGitHubData(
+            owner,
+            repo,
+            'issues',
+            query,
+            ['repository', 'openIssues', 'totalCount']
+        )
+    }
+
     async getLatestVersion(owner, repo) {
         return this.withRetry(async () => {
             const data = await this.request(`/repos/${owner}/${repo}/releases/latest`);
@@ -203,13 +223,6 @@ class GitHubPlugin extends BadgePlugin {
                 return new Date(data[0].commit.committer.date).toISOString();
             }
             return null;
-        });
-    }
-
-    async getOpenIssuesCount(owner, repo) {
-        return this.withRetry(async () => {
-            const response = await this.client.get(`/search/issues?q=repo:${owner}/${repo}+is:issue+is:open`);
-            return response.data.total_count;
         });
     }
 

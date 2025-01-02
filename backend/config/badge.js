@@ -13,6 +13,7 @@ const defaultConfig = {
                 {value: 'forks', label: 'Fork'},
                 {value: 'watchers', label: 'Watch'},
                 {value: 'commits', label: 'Commit'},
+                {value: 'open_issues', label: 'Open Issues'},
                 {value: 'contributors', label: 'Contributors'},
                 {value: 'branches', label: 'Branches'},
                 {value: 'tags', label: 'Tags'},
@@ -20,7 +21,6 @@ const defaultConfig = {
                 {value: 'latest_version', label: 'Latest Version'},
                 {value: 'latest_release_time', label: 'Latest Release Time'},
                 {value: 'latest_commit_time', label: 'Latest Commit Time'},
-                {value: 'open_issues', label: 'Open Issues'},
                 {value: 'closed_issues', label: 'Closed Issues'},
                 {value: 'opened_pull_requests', label: 'Open Pull Requests'},
                 {value: 'closed_pull_requests', label: 'Closed Pull Requests'}

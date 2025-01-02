@@ -58,6 +58,15 @@ class BadgeService {
                     label: 'Commits',
                     description: response.value
                 };
+            case 'open_issues':
+                response = await plugin.getOpenIssuesCount(owner, repo);
+                return {
+                    label: 'Open Issues',
+                    description: response.value
+                };
+            case 'closed_issues':
+                value = await plugin.getClosedIssuesCount(owner, repo);
+                return {closed_issues: value};
             case 'contributors':
                 value = await plugin.getContributorsCount(owner, repo);
                 return {contributors: value};
@@ -79,12 +88,6 @@ class BadgeService {
             case 'latest_commit_time':
                 value = await plugin.getLatestCommitTime(owner, repo);
                 return {latest_commit_time: value};
-            case 'open_issues':
-                value = await plugin.getOpenIssuesCount(owner, repo);
-                return {open_issues: value};
-            case 'closed_issues':
-                value = await plugin.getClosedIssuesCount(owner, repo);
-                return {closed_issues: value};
             case 'opened_pull_requests':
                 value = await plugin.getOpenPullRequestsCount(owner, repo);
                 return {opened_pull_requests: value};
