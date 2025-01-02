@@ -155,19 +155,31 @@ class GitHubPlugin extends BadgePlugin {
         );
     }
 
-    async getCommitsCount(owner, repo) {
-        return this.withRetry(async () => {
-            const response = await this.client.get(`/repos/${owner}/${repo}/commits?per_page=1`);
-            // 从 Link header 中获取最后一页的数据
-            const link = response.headers.link;
-            if (!link) {
-                return response.data.length; // 如果没有分页，直接返回当前数量
+    async getCountForCommit(owner, repo) {
+        const query = `
+            query {
+              repository(owner: "${owner}", name: "${repo}") {
+                defaultBranchRef {
+                  name
+                  target {
+                    ... on Commit {
+                      history(first: 1) {
+                        totalCount
+                      }
+                    }
+                  }
+                }
+              }
             }
+        `
 
-            // 解析 Link header 获取总数
-            const match = link.match(/&page=(\d+)>; rel="last"/);
-            return match ? parseInt(match[1]) : response.data.length;
-        });
+        return await this.extractGitHubData(
+            owner,
+            repo,
+            'commits',
+            query,
+            ['repository', 'defaultBranchRef', 'target', 'history', 'totalCount']
+        );
     }
 
     async getLatestVersion(owner, repo) {

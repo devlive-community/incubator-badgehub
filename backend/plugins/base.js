@@ -96,6 +96,10 @@ class BadgePlugin {
         // 尝试读取缓存
         try {
             this.logger.info(`正在尝试读取缓存 ${cacheKey}`);
+            if (!fs.existsSync(cacheFile)) {
+                throw new Error(`缓存 ${cacheKey} 不存在，跳过缓存`);
+            }
+
             const data = fs.readFileSync(cacheFile, 'utf8');
             const cache = JSON.parse(data);
             if (Date.now() - cache.timestamp <= this.cacheTime) {
@@ -105,7 +109,6 @@ class BadgePlugin {
         }
         catch (error) {
             this.logger.warn({err: error}, `读取缓存 ${cacheKey} 失败`);
-            // 缓存不存在或已过期
         }
 
         this.logger.info(`缓存 ${cacheKey} 不存在，开始执行函数 ${getFnName(fn)}`);
@@ -167,7 +170,13 @@ class BadgePlugin {
      */
     async getCountForWatch(owner, repo) { throw new Error('Not implemented'); }
 
-    async getCommitsCount(owner, repo) { throw new Error('Not implemented'); }
+    /**
+     * 获取 commit 数
+     * @param owner 仓库归属用户
+     * @param repo 仓库名称
+     * @returns {Promise<void>}
+     */
+    async getCountForCommit(owner, repo) { throw new Error('Not implemented'); }
 
     async getLatestVersion(owner, repo) { throw new Error('Not implemented'); }
 

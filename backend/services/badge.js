@@ -42,13 +42,22 @@ class BadgeService {
                 };
             case 'forks':
                 response = await plugin.getCountForFork(owner, repo);
-                return {value: response.value};
+                return {
+                    label: 'Forks',
+                    description: response.value
+                };
             case 'watchers':
                 response = await plugin.getCountForWatch(owner, repo);
-                return {value: response.value};
+                return {
+                    label: 'Watchers',
+                    description: response.value
+                };
             case 'commits':
-                value = await plugin.getCommitsCount(owner, repo);
-                return {commits: value};
+                response = await plugin.getCountForCommit(owner, repo);
+                return {
+                    label: 'Commits',
+                    description: response.value
+                };
             case 'contributors':
                 value = await plugin.getContributorsCount(owner, repo);
                 return {contributors: value};
