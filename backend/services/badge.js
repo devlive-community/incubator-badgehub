@@ -88,12 +88,15 @@ class BadgeService {
                     label: 'Contributors',
                     description: response.value
                 };
+            case 'branches':
+                response = await plugin.getCountForBranches(owner, repo);
+                return {
+                    label: 'Branches',
+                    description: response.value
+                };
             case 'licenses':
                 value = await plugin.getLicense(owner, repo);
                 return {licenses: value};
-            case 'branches':
-                value = await plugin.getBranchesCount(owner, repo);
-                return {branches: value};
             case 'tags':
                 value = await plugin.getTagsCount(owner, repo);
                 return {tags: value};

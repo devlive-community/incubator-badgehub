@@ -25,7 +25,7 @@ class BadgePlugin {
     async ensureCacheDir(owner, repo) {
         if (!this._cacheInitialized) {
             try {
-                // 拼接缓冲目录，格式为：<plugin>/<owner>/<repo>
+                // 拼接缓冲目录，格式为：/<plugin>/<owner>/<repo>
                 this.cacheDir = path.join(this.cacheDir, this.getName(), owner, repo);
 
                 if (!fs.existsSync(this.cacheDir)) {
@@ -221,6 +221,13 @@ class BadgePlugin {
      */
     async getCountForContributors(owner, repo) { throw new Error('Not implemented'); }
 
+    /**
+     * 获取 branch 数
+     * @param owner 仓库归属用户
+     * @param repo 仓库名称
+     * @returns {Promise<void>}
+     */
+    async getCountForBranches(owner, repo) { throw new Error('Not implemented'); }
 
 
 

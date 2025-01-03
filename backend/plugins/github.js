@@ -282,6 +282,28 @@ class GitHubPlugin extends BadgePlugin {
         )
     }
 
+    async getCountForBranches(owner, repo) {
+        const query = `
+            query {
+                repository(owner: "${owner}", name: "${repo}") {
+                    refs(refPrefix: "refs/heads/") {
+                        totalCount
+                    }
+                }
+            }
+        `
+
+        return await this.extractGitHubData(
+            owner,
+            repo,
+            'branches',
+            query,
+            ['repository', 'refs', 'totalCount']
+        )
+    }
+
+
+
 
     async getLatestVersion(owner, repo) {
         return this.withRetry(async () => {
