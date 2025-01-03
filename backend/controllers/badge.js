@@ -62,7 +62,7 @@ class BadgeController {
             this.logger.error({err: error}, '生成徽章失败，构建错误徽章');
 
             const svg = await BadgeService.generateBadge({
-                label: 'Error',
+                label: '构建失败',
                 description: error.message,
                 ...req.params,
                 ...req.query

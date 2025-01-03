@@ -1,28 +1,18 @@
 {
   "name": "badgehub",
   "version": "2025.1.0",
+  "private": true,
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "nodemon backend/server.js",
-    "pm2:start": "pm2 start ecosystem.config.js",
-    "pm2:start:prod": "pm2 start ecosystem.config.js --env production",
-    "pm2:stop": "pm2 stop ecosystem.config.js",
-    "pm2:restart": "pm2 restart ecosystem.config.js",
-    "pm2:delete": "pm2 delete ecosystem.config.js",
-    "pm2:logs": "pm2 logs",
-    "pm2:monit": "pm2 monit"
-  },
-  "dependencies": {
-    "axios": "^1.7.9",
-    "canvas": "^3.0.0",
-    "cors": "^2.8.5",
-    "ejs": "^3.1.10",
-    "express": "^4.17.1",
-    "pino": "^9.6.0",
-    "pino-pretty": "^13.0.0"
+    "dev": "concurrently \"cd backend && pnpm run dev\" \"cd frontend && pnpm run dev\"",
+    "build": "cd frontend && pnpm run build",
+    "start": "cd backend && pnpm run pm2:start:prod",
+    "install:all": "pnpm install && cd backend && pnpm install && cd ../frontend && pnpm install"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2",
-    "pm2": "^5.3.0"
-  }
+    "concurrently": "^8.2.2"
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ]
 }

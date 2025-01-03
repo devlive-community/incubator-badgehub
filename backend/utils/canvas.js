@@ -79,7 +79,7 @@ async function drawSvg(params) {
         `
     };
 
-    if (platformLogos[logo] === undefined) {
+    if (logo !== undefined && platformLogos[logo] === undefined) {
         platform = undefined;
     }
 

@@ -16,24 +16,29 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/static', express.static(path.resolve(__dirname, '../frontend/static')));
-app.use('/', routes);
+// API 路由 - 所有 API 请求添加 /api 前缀
+app.use('/api', routes);
 
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../frontend'));
+// 设置静态文件目录 - 指向 Vue 构建后的文件
+app.use(express.static(path.join(__dirname, '../../frontend/dist')));
+
+// 所有其他请求返回 index.html
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
+});
 
 // 错误处理中间件
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({
         success: false,
-        message: 'Internal Server Error'
+        message: '服务器启动失败'
     });
 });
 
 // 启动服务器
 const PORT = config.server.port || 3000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`服务器启动成功，监听端口 ${PORT}`);
     console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });

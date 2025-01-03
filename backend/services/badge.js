@@ -16,7 +16,7 @@ class BadgeService {
     static getPlugin(name) {
         const plugin = this.plugins.get(name);
         if (!plugin) {
-            throw new Error(`Plugin ${name} not found`);
+            throw new Error(`未找到 ${name} 插件，请联系管理员支持`);
         }
         return plugin;
     }
@@ -131,7 +131,7 @@ class BadgeService {
                     description: response.value
                 };
             default:
-                throw new Error(`Invalid type: ${type}`);
+                throw new Error(`未支持的类型 ${type}`);
         }
     }
 
