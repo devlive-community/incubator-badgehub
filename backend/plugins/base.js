@@ -22,9 +22,12 @@ class BadgePlugin {
         this.logger = options.logger || getInstance();
     }
 
-    async ensureCacheDir() {
+    async ensureCacheDir(owner, repo) {
         if (!this._cacheInitialized) {
             try {
+                // 拼接缓冲目录，格式为：<plugin>/<owner>/<repo>
+                this.cacheDir = path.join(this.cacheDir, this.getName(), owner, repo);
+
                 if (!fs.existsSync(this.cacheDir)) {
                     this.logger.info(`初始化缓冲目录 ${this.cacheDir}`);
                     fs.mkdirSync(this.cacheDir, {recursive: true});
@@ -87,10 +90,10 @@ class BadgePlugin {
      * @returns {Promise<*>}
      */
     async withCache(owner, repo, type, fn) {
-        await this.ensureCacheDir();
+        await this.ensureCacheDir(owner, repo);
 
         const timestamp = Date.now();
-        const cacheKey = `${owner}-${repo}-${type}`;
+        const cacheKey = `${type}`;
         const cacheFile = path.join(this.cacheDir, `${cacheKey}.json`);
 
         // 尝试读取缓存
