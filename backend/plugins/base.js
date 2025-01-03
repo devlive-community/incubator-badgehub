@@ -210,6 +210,17 @@ class BadgePlugin {
      */
     async getCountForClosedPullRequests(owner, repo) { throw new Error('Not implemented'); }
 
+    /**
+     * 获取 commit author 数
+     * @param owner 仓库归属用户
+     * @param repo 仓库名称
+     * @returns {Promise<void>}
+     */
+    async getCountForContributors(owner, repo) { throw new Error('Not implemented'); }
+
+
+
+
 
     async getLatestVersion(owner, repo) { throw new Error('Not implemented'); }
 
@@ -217,7 +228,6 @@ class BadgePlugin {
 
     async getLatestCommitTime(owner, repo) { throw new Error('Not implemented'); }
 
-    async getContributorsCount(owner, repo) { throw new Error('Not implemented'); }
 
     async getLicense(owner, repo) { throw new Error('Not implemented'); }
 

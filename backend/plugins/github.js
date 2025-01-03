@@ -262,6 +262,25 @@ class GitHubPlugin extends BadgePlugin {
         )
     }
 
+    async getCountForContributors(owner, repo) {
+        const query = `
+            query {
+                repository(owner: "${owner}", name: "${repo}") {
+                    mentionableUsers {
+                        totalCount
+                    }
+                }
+            }
+        `
+
+        return await this.extractGitHubData(
+            owner,
+            repo,
+            'contributors',
+            query,
+            ['repository', 'mentionableUsers', 'totalCount']
+        )
+    }
 
 
     async getLatestVersion(owner, repo) {
@@ -285,18 +304,6 @@ class GitHubPlugin extends BadgePlugin {
                 return new Date(data[0].commit.committer.date).toISOString();
             }
             return null;
-        });
-    }
-
-    async getContributorsCount(owner, repo) {
-        return this.withRetry(async () => {
-            const response = await this.client.get(`/repos/${owner}/${repo}/contributors?per_page=1`);
-            const link = response.headers.link;
-            if (!link) {
-                return response.data.length;
-            }
-            const match = link.match(/&page=(\d+)>; rel="last"/);
-            return match ? parseInt(match[1]) : response.data.length;
         });
     }
 

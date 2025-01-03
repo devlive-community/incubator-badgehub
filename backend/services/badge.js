@@ -83,8 +83,11 @@ class BadgeService {
                     description: response.value
                 };
             case 'contributors':
-                value = await plugin.getContributorsCount(owner, repo);
-                return {contributors: value};
+                response = await plugin.getCountForContributors(owner, repo);
+                return {
+                    label: 'Contributors',
+                    description: response.value
+                };
             case 'licenses':
                 value = await plugin.getLicense(owner, repo);
                 return {licenses: value};
