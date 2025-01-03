@@ -77,8 +77,11 @@ class BadgeService {
                     description: response.value
                 };
             case 'closed_pull_requests':
-                value = await plugin.getClosedPullRequestsCount(owner, repo);
-                return {closed_pull_requests: value};
+                response = await plugin.getCountForClosedPullRequests(owner, repo);
+                return {
+                    label: 'Closed Pull Requests',
+                    description: response.value
+                };
             case 'contributors':
                 value = await plugin.getContributorsCount(owner, repo);
                 return {contributors: value};

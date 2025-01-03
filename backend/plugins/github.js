@@ -242,6 +242,26 @@ class GitHubPlugin extends BadgePlugin {
         )
     }
 
+    async getCountForClosedPullRequests(owner, repo) {
+        const query = `
+            query {
+                repository(owner: "${owner}", name: "${repo}") {
+                    closedPullRequests: pullRequests(states: CLOSED) {
+                        totalCount
+                    }
+                }
+            }
+        `
+
+        return await this.extractGitHubData(
+            owner,
+            repo,
+            'closed_pull_requests',
+            query,
+            ['repository', 'closedPullRequests', 'totalCount']
+        )
+    }
+
 
 
     async getLatestVersion(owner, repo) {
@@ -265,20 +285,6 @@ class GitHubPlugin extends BadgePlugin {
                 return new Date(data[0].commit.committer.date).toISOString();
             }
             return null;
-        });
-    }
-
-    async getClosedIssuesCount(owner, repo) {
-        return this.withRetry(async () => {
-            const response = await this.client.get(`/search/issues?q=repo:${owner}/${repo}+is:issue+is:closed`);
-            return response.data.total_count;
-        });
-    }
-
-    async getClosedPullRequestsCount(owner, repo) {
-        return this.withRetry(async () => {
-            const response = await this.client.get(`/search/issues?q=repo:${owner}/${repo}+is:pr+is:closed`);
-            return response.data.total_count;
         });
     }
 
