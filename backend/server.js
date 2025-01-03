@@ -4,13 +4,23 @@ const routes = require('./routes');
 const config = require('./config');
 const setupPlugins = require("./config/plugins");
 const path = require('path');
+const {getInstance} = require("./utils/logger");
 
 const app = express();
+const logger = getInstance();
 
 setupPlugins();
 
 // 中间件
 app.use(cors());
+
+app.use((req, res, next) => {
+    if (req.path.endsWith('.svg')) {
+        res.setHeader('Content-Type', 'image/svg+xml');
+    }
+    next();
+});
+
 app.use((req, res, next) => {
     res.header('Cache-Control', `public, max-age=${config.cache.maxAge}`);
     next();
@@ -29,10 +39,15 @@ app.get('*', (req, res) => {
 
 // 错误处理中间件
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+    logger.error('Error:', err.message, {
+        url: req.url,
+        stack: err.stack
+    });
+
     res.status(500).json({
         success: false,
-        message: '服务器启动失败'
+        message: '服务器处理请求失败',
+        error: process.env.NODE_ENV === 'development' ? err.message : undefined
     });
 });
 
