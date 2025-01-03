@@ -302,6 +302,26 @@ class GitHubPlugin extends BadgePlugin {
         )
     }
 
+    async getCountForTags(owner, repo) {
+        const query = `
+            query {
+                repository(owner: "${owner}", name: "${repo}") {
+                    refs(refPrefix: "refs/tags/") {
+                        totalCount
+                    }
+                }
+            }
+        `
+
+        return await this.extractGitHubData(
+            owner,
+            repo,
+            'tags',
+            query,
+            ['repository', 'refs', 'totalCount']
+        )
+    }
+
 
 
 

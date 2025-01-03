@@ -229,6 +229,13 @@ class BadgePlugin {
      */
     async getCountForBranches(owner, repo) { throw new Error('Not implemented'); }
 
+    /**
+     * 获取 tag 数
+     * @param owner 仓库归属用户
+     * @param repo 仓库名称
+     * @returns {Promise<void>}
+     */
+    async getCountForTags(owner, repo) { throw new Error('Not implemented'); }
 
 
 
