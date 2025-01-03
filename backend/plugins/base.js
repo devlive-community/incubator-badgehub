@@ -253,18 +253,15 @@ class BadgePlugin {
      */
     async getLatestVersion(owner, repo) { throw new Error('Not implemented'); }
 
+    /**
+     * 获取最新发布时间
+     * @param owner 仓库归属用户
+     * @param repo 仓库名称
+     * @returns {Promise<void>}
+     */
     async getLatestReleaseTime(owner, repo) { throw new Error('Not implemented'); }
 
     async getLatestCommitTime(owner, repo) { throw new Error('Not implemented'); }
-
-
-    async getLicense(owner, repo) { throw new Error('Not implemented'); }
-
-    async getBranchesCount(owner, repo) { throw new Error('Not implemented'); }
-
-    async getTagsCount(owner, repo) { throw new Error('Not implemented'); }
-
-
 }
 
 module.exports = BadgePlugin;
