@@ -109,6 +109,9 @@ class BadgePlugin {
                 this.logger.info(`缓冲 ${cacheKey} 已被命中，返回缓存数据`);
                 return cache.data;
             }
+            else {
+                this.logger.info(`缓冲 ${cacheKey} 已过期，重新执行函数 ${getFnName(fn)}`);
+            }
         }
         catch (error) {
             this.logger.warn({err: error}, `读取缓存 ${cacheKey} 失败`);
@@ -261,6 +264,12 @@ class BadgePlugin {
      */
     async getLatestReleaseTime(owner, repo) { throw new Error('Not implemented'); }
 
+    /**
+     * 获取最新提交时间
+     * @param owner 仓库归属用户
+     * @param repo 仓库名称
+     * @returns {Promise<void>}
+     */
     async getLatestCommitTime(owner, repo) { throw new Error('Not implemented'); }
 }
 

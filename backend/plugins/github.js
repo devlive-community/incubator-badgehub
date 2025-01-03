@@ -41,7 +41,7 @@ class GitHubPlugin extends BadgePlugin {
         }
 
         return this.withRetry(async () => {
-            const response = await fetch('https://api.github.com/graphql', {
+            const response = await fetch(`${this.getBaseUrl()}/graphql`, {
                 method: 'POST',
                 headers,
                 body: JSON.stringify({
@@ -383,13 +383,27 @@ class GitHubPlugin extends BadgePlugin {
     }
 
     async getLatestCommitTime(owner, repo) {
-        return this.withRetry(async () => {
-            const data = await this.request(`/repos/${owner}/${repo}/commits?per_page=1`);
-            if (data && data[0]) {
-                return new Date(data[0].commit.committer.date).toISOString();
+        const query = `
+            query {
+                repository(owner: "${owner}", name: "${repo}") {
+                    defaultBranchRef {
+                        target {
+                            ... on Commit {
+                                committedDate
+                            }
+                        }
+                    }
+                }
             }
-            return null;
-        });
+        `
+
+        return await this.extractGitHubData(
+            owner,
+            repo,
+            'latest_commit_time',
+            query,
+            ['repository', 'defaultBranchRef', 'target', 'committedDate']
+        )
     }
 
     getName() {
@@ -397,7 +411,7 @@ class GitHubPlugin extends BadgePlugin {
     }
 
     getBaseUrl() {
-        return 'https://github.com';
+        return 'https://api.github.com';
     }
 }
 

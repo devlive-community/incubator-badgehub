@@ -119,8 +119,11 @@ class BadgeService {
                     description: response.value
                 };
             case 'latest_commit_time':
-                value = await plugin.getLatestCommitTime(owner, repo);
-                return {latest_commit_time: value};
+                response = await plugin.getLatestCommitTime(owner, repo);
+                return {
+                    label: 'Latest Commit Time',
+                    description: response.value
+                };
             default:
                 throw new Error(`Invalid type: ${type}`);
         }
