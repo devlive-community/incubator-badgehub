@@ -9,17 +9,17 @@
         </svg>
     </button>
 
-    <div class="invisible opacity-0 translate-y-2 absolute left-0 z-10 mt-5 w-[600px]
+    <div class="invisible opacity-0 translate-y-2 absolute left-1/2 -translate-x-1/2 z-10 mt-4 w-max
                 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0
                 transition-all duration-300 delay-150 group-hover:delay-0
                 ease-out">
-        <div class="grid w-full gap-2 px-3 py-4 mx-auto text-gray-900 dark:text-white sm:grid-cols-2 bg-white shadow-lg rounded-lg
-                    transition-transform duration-300 ease-out">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 text-center gap-2 px-3 py-4 text-gray-900 dark:text-white bg-white shadow-lg rounded-lg
+            transition-transform duration-300 ease-out
+            min-w-[200px] w-max max-w-[600px]">
             <% items.forEach(function(item) { %>
                 <a href="<%= item.href %>" class="block p-3 rounded-lg transition duration-150 ease-in-out hover:bg-gray-100 dark:hover:bg-gray-700
-                                                  <%= currentPath === item.href ? 'rounded-lg bg-gray-100' : 'hover:bg-gray-100 hover:rounded-lg' %>">
-                    <div class="font-semibold"><%= item.title %></div>
-                    <span class="ext-gray-500 dark:text-gray-400 text-xs"><%= item.description %></span>
+                                          <%= currentPath === item.href ? 'rounded-lg bg-gray-100' : 'hover:bg-gray-100 hover:rounded-lg' %>">
+                    <div class="font-semibold whitespace-nowrap"><%= item.title %></div>
                 </a>
             <% }); %>
         </div>

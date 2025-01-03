@@ -1,4 +1,4 @@
-const {createCanvas, loadImage} = require('canvas');
+const {createCanvas} = require('canvas');
 
 const PADDING = 8;
 const FONT_SIZE = 11;
@@ -38,13 +38,17 @@ function decodeColor(color) {
  * @returns {Promise<string>}
  */
 async function drawSvg(params) {
-    const {
+    let {
         label,
         labelColor = '#555',
         description,
         descriptionColor = '#4c1',
-        platform = undefined
+        platform = undefined,
+        logo = undefined,
     } = params;
+    if (logo) {
+        platform = logo;
+    }
 
     const logoWidth = 14;
     const verticalCenter = 11;
@@ -74,6 +78,10 @@ async function drawSvg(params) {
             </path>
         `
     };
+
+    if (platformLogos[logo] === undefined) {
+        platform = undefined;
+    }
 
     return `
        <svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth}" height="20">

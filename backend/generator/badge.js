@@ -117,7 +117,7 @@ class BadgeGenerator {
                                    id="logoText"
                                    name="logoText"
                                    class="block w-full rounded-md border-0 ring-1 ring-inset ring-gray-200 py-2 px-4 text-gray-900 placeholder:text-gray-400 hover:ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors sm:text-sm sm:leading-6"
-                                   placeholder="[可选] 请输入 Logo 地址，例如 https://example.com/logo.png"/>
+                                   placeholder="[可选] 目前仅支持我们系统默认的一些商标 LOGO"/>
                         </div>
 
                   <!-- 样式选择 -->
