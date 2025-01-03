@@ -13,9 +13,9 @@ const defaultConfig = {
                 {value: 'forks', label: 'Fork'},
                 {value: 'watchers', label: 'Watch'},
                 {value: 'commits', label: 'Commit'},
-                {value: 'open_issues', label: 'Open Issues'},
+                {value: 'open_issues', label: 'Opened Issues'},
                 {value: 'closed_issues', label: 'Closed Issues'},
-                {value: 'opened_pull_requests', label: 'Open Pull Requests'},
+                {value: 'opened_pull_requests', label: 'Opened Pull Requests'},
                 {value: 'closed_pull_requests', label: 'Closed Pull Requests'},
                 {value: 'contributors', label: 'Contributors'},
                 {value: 'branches', label: 'Branches'},
@@ -36,7 +36,12 @@ const defaultConfig = {
             badgeTypes: [
                 {value: 'stars', label: 'Star'},
                 {value: 'forks', label: 'Fork'},
-                {value: 'watchers', label: 'Watch'}
+                {value: 'watchers', label: 'Watch'},
+                {value: 'contributors', label: 'Contributors'},
+                {value: 'open_issues', label: 'Opened Issues'},
+                {value: 'closed_issues', label: 'Closed Issues'},
+                {value: 'licenses', label: 'Licenses'},
+                {value: 'default_branch', label: 'Default Branch'}
             ],
             previewUrl: '/badge/preview',
             urlParams: {
