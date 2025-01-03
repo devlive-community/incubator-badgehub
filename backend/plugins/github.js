@@ -322,6 +322,26 @@ class GitHubPlugin extends BadgePlugin {
         )
     }
 
+    async getTextForLicenses(owner, repo) {
+        const query = `
+            query {
+                repository(owner: "${owner}", name: "${repo}") {
+                    licenseInfo {
+                        name
+                    }
+                }
+            }
+        `
+
+        return await this.extractGitHubData(
+            owner,
+            repo,
+            'licenses',
+            query,
+            ['repository', 'licenseInfo', 'name']
+        )
+    }
+
 
 
 

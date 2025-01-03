@@ -101,8 +101,11 @@ class BadgeService {
                     description: response.value
                 };
             case 'licenses':
-                value = await plugin.getLicense(owner, repo);
-                return {licenses: value};
+                response = await plugin.getTextForLicenses(owner, repo);
+                return {
+                    label: 'Licenses',
+                    description: response.value
+                };
             case 'latest_version':
                 value = await plugin.getLatestVersion(owner, repo);
                 return {latest_version: value};
