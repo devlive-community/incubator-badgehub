@@ -15,15 +15,15 @@ const defaultConfig = {
                 {value: 'commits', label: 'Commit'},
                 {value: 'open_issues', label: 'Open Issues'},
                 {value: 'closed_issues', label: 'Closed Issues'},
+                {value: 'opened_pull_requests', label: 'Open Pull Requests'},
+                {value: 'closed_pull_requests', label: 'Closed Pull Requests'},
                 {value: 'contributors', label: 'Contributors'},
                 {value: 'branches', label: 'Branches'},
                 {value: 'tags', label: 'Tags'},
                 {value: 'licenses', label: 'Licenses'},
                 {value: 'latest_version', label: 'Latest Version'},
                 {value: 'latest_release_time', label: 'Latest Release Time'},
-                {value: 'latest_commit_time', label: 'Latest Commit Time'},
-                {value: 'opened_pull_requests', label: 'Open Pull Requests'},
-                {value: 'closed_pull_requests', label: 'Closed Pull Requests'}
+                {value: 'latest_commit_time', label: 'Latest Commit Time'}
             ],
             previewUrl: '/badge/preview',
             urlParams: {

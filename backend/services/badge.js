@@ -70,6 +70,15 @@ class BadgeService {
                     label: 'Closed Issues',
                     description: response.value
                 };
+            case 'opened_pull_requests':
+                response = await plugin.getCountForOpenPullRequests(owner, repo);
+                return {
+                    label: 'Open Pull Requests',
+                    description: response.value
+                };
+            case 'closed_pull_requests':
+                value = await plugin.getClosedPullRequestsCount(owner, repo);
+                return {closed_pull_requests: value};
             case 'contributors':
                 value = await plugin.getContributorsCount(owner, repo);
                 return {contributors: value};
@@ -91,12 +100,6 @@ class BadgeService {
             case 'latest_commit_time':
                 value = await plugin.getLatestCommitTime(owner, repo);
                 return {latest_commit_time: value};
-            case 'opened_pull_requests':
-                value = await plugin.getOpenPullRequestsCount(owner, repo);
-                return {opened_pull_requests: value};
-            case 'closed_pull_requests':
-                value = await plugin.getClosedPullRequestsCount(owner, repo);
-                return {closed_pull_requests: value};
             default:
                 throw new Error(`Invalid type: ${type}`);
         }
