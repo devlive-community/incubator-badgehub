@@ -243,10 +243,14 @@ class BadgePlugin {
      * @param repo 仓库名称
      * @returns {Promise<void>}
      */
-    async getTextForLicenses(owner, repo) { throw new Error('Not implemented'); }
+    async getTextForLicense(owner, repo) { throw new Error('Not implemented'); }
 
-
-
+    /**
+     * 获取最新版本
+     * @param owner 仓库归属用户
+     * @param repo 仓库名称
+     * @returns {Promise<void>}
+     */
     async getLatestVersion(owner, repo) { throw new Error('Not implemented'); }
 
     async getLatestReleaseTime(owner, repo) { throw new Error('Not implemented'); }

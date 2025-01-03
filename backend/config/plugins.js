@@ -7,8 +7,9 @@ const setupPlugins = () => {
     const githubToken = config.plugins.github.token;
     const giteeToken = config.plugins.gitee.token;
 
-    const githubPlugin = new GitHubPlugin(githubToken);
+    const githubPlugin = new GitHubPlugin(githubToken, config);
     BadgeService.registerPlugin(githubPlugin);
+
     const giteePlugin = new GiteePlugin(giteeToken);
     BadgeService.registerPlugin(giteePlugin);
 };

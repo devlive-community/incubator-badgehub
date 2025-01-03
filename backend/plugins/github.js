@@ -322,7 +322,7 @@ class GitHubPlugin extends BadgePlugin {
         )
     }
 
-    async getTextForLicenses(owner, repo) {
+    async getTextForLicense(owner, repo) {
         const query = `
             query {
                 repository(owner: "${owner}", name: "${repo}") {
@@ -342,15 +342,29 @@ class GitHubPlugin extends BadgePlugin {
         )
     }
 
-
-
-
     async getLatestVersion(owner, repo) {
-        return this.withRetry(async () => {
-            const data = await this.request(`/repos/${owner}/${repo}/releases/latest`);
-            return data.tag_name.replace(/^v/, '');
-        });
+        const query = `
+            query {
+                repository(owner: "${owner}", name: "${repo}") {
+                    latestRelease {
+                        tagName
+                    }
+                }
+            }
+        `
+
+        return await this.extractGitHubData(
+            owner,
+            repo,
+            'releases',
+            query,
+            ['repository', 'latestRelease', 'tagName']
+        )
     }
+
+
+
+
 
     async getLatestReleaseTime(owner, repo) {
         return this.withRetry(async () => {

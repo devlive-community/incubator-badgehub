@@ -1,3 +1,6 @@
+const path = require('path');
+const os = require('os');
+
 module.exports = {
     server: {
         port: process.env.PORT || 3000,
@@ -14,6 +17,7 @@ module.exports = {
     },
 
     cache: {
-        maxAge: 6
+        dir: path.join(os.tmpdir(), '.cache') || process.env.BADGE_CACHE_DIR,
+        time: 5 * 60 * 1000
     }
 };
