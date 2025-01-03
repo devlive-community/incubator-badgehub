@@ -21,6 +21,7 @@ const defaultConfig = {
                 {value: 'branches', label: 'Branches'},
                 {value: 'tags', label: 'Tags'},
                 {value: 'licenses', label: 'Licenses'},
+                {value: 'default_branch', label: 'Default Branch'},
                 {value: 'latest_version', label: 'Latest Version'},
                 {value: 'latest_release_time', label: 'Latest Release Time'},
                 {value: 'latest_commit_time', label: 'Latest Commit Time'}

@@ -61,7 +61,7 @@ class BadgeService {
             case 'open_issues':
                 response = await plugin.getCountForOpenIssues(owner, repo);
                 return {
-                    label: 'Open Issues',
+                    label: 'Opened Issues',
                     description: response.value
                 };
             case 'closed_issues':
@@ -73,7 +73,7 @@ class BadgeService {
             case 'opened_pull_requests':
                 response = await plugin.getCountForOpenPullRequests(owner, repo);
                 return {
-                    label: 'Open Pull Requests',
+                    label: 'Opened Pull Requests',
                     description: response.value
                 };
             case 'closed_pull_requests':
@@ -104,6 +104,12 @@ class BadgeService {
                 response = await plugin.getTextForLicense(owner, repo);
                 return {
                     label: 'Licenses',
+                    description: response.value
+                };
+            case 'default_branch':
+                response = await plugin.getTextForDefaultBranch(owner, repo);
+                return {
+                    label: 'Default Branch',
                     description: response.value
                 };
             case 'latest_version':

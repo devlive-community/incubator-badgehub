@@ -24,7 +24,7 @@ class BadgeGenerator {
                class="sr-only peer"
                ${index === 0 ? 'checked' : ''}>
         <div class="flex w-full">
-          <div class="flex flex-col items-center justify-center w-full space-y-1">
+          <div class="flex flex-col items-center justify-center w-full space-y-2 py-2">
             <span class="font-medium text-gray-900">${style.label}</span>
             <img src="/api/badge/L/R.svg?style=${style.value}" alt="${style.label}">
           </div>
@@ -37,9 +37,9 @@ class BadgeGenerator {
         const typesHtml = platformConfig.badgeTypes ? `
       <div class="space-y-2">
         <label class="block text-sm font-medium text-gray-700">徽章类型</label>
-        <div class="grid grid-cols-6 gap-3">
+        <div class="grid grid-cols-5 gap-4">
           ${platformConfig.badgeTypes.map((type, index) => `
-            <label class="relative flex cursor-pointer rounded-lg border bg-white p-2 shadow-sm hover:border-blue-500 focus:outline-none">
+            <label class="relative flex cursor-pointer rounded-lg border bg-white p-3 shadow-sm hover:border-blue-500 focus:outline-none">
               <input type="radio"
                      name="badgeType"
                      value="${type.value}"
@@ -48,7 +48,6 @@ class BadgeGenerator {
               <div class="flex w-full">
                 <div class="flex flex-col items-center justify-center w-full space-y-1">
                   <span class="font-medium text-xs text-gray-900">${type.label}</span>
-                  <img src="/api/badge/${type.value}/100.svg" alt="${type.label}">
                 </div>
               </div>
               <div class="absolute -inset-px rounded-lg border-2 pointer-events-none peer-checked:border-blue-500" aria-hidden="true"></div>
@@ -161,7 +160,7 @@ class BadgeGenerator {
           <!-- 右侧链接区域 -->
           <div class="w-2/5">
             <div id="${linksId}" class="border-gray-100">
-                <div class="p-6 bg-white border border-gray-200 rounded-lg shadow">
+                <div class="p-6 bg-white border border-gray-200 rounded-sm shadow">
                     <p class="font-normal text-gray-500">在右侧配置相关数据点击生成徽章，可以在下方查看预览效果 </p>
                 </div>
             </div>

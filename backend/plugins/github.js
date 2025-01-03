@@ -342,6 +342,26 @@ class GitHubPlugin extends BadgePlugin {
         )
     }
 
+    async getTextForDefaultBranch(owner, repo) {
+        const query = `
+            query {
+                repository(owner: "${owner}", name: "${repo}") {
+                    defaultBranchRef {
+                        name
+                    }
+                }
+            }
+        `
+
+        return await this.extractGitHubData(
+            owner,
+            repo,
+            'default_branch',
+            query,
+            ['repository', 'defaultBranchRef', 'name']
+        )
+    }
+
     async getLatestVersion(owner, repo) {
         const query = `
             query {

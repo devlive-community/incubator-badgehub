@@ -1,6 +1,6 @@
 {
   "name": "badgehub",
-  "version": "2024.1.0",
+  "version": "2025.1.0",
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
