@@ -35,6 +35,15 @@
                 <div>GitHub 徽章</div>
               </div>
             </ShadcnMenuItem>
+
+            <ShadcnMenuItem name="Gitee"
+                            :active="$route.path === '/badge/gitee'"
+                            to="/badge/gitee">
+              <div class="flex items-center space-x-2">
+                <ShadcnIcon icon="Gitee" size="18"/>
+                <div>Gitee 徽章</div>
+              </div>
+            </ShadcnMenuItem>
           </ShadcnMenuSub>
         </ShadcnMenu>
       </div>

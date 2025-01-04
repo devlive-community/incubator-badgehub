@@ -29,6 +29,11 @@ const routes = [
                 path: 'github',
                 name: 'github',
                 component: () => import('@/views/pages/badge/Github.vue')
+            },
+            {
+                path: 'gitee',
+                name: 'gitee',
+                component: () => import('@/views/pages/badge/Gitee.vue')
             }
         ]
     }
