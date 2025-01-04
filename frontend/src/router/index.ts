@@ -36,6 +36,18 @@ const routes = [
                 component: () => import('@/views/pages/badge/Gitee.vue')
             }
         ]
+    },
+    {
+        path: '/chart',
+        name: 'chart',
+        component: LayoutContainer,
+        children: [
+            {
+                path: 'github',
+                name: 'chart-github',
+                component: () => import('@/views/pages/chart/Github.vue')
+            }
+        ]
     }
 ]
 

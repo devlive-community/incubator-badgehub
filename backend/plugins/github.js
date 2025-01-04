@@ -1,6 +1,7 @@
 const axios = require('axios');
 const {getInstance} = require("../utils/logger");
 const BadgePlugin = require("./base");
+const StarHistoryService = require('./github/service');
 
 class GitHubPlugin extends BadgePlugin {
     constructor(token) {
@@ -21,6 +22,7 @@ class GitHubPlugin extends BadgePlugin {
         });
 
         this.logger = getInstance();
+        this.starHistory = new StarHistoryService(token);
     }
 
     async request(path) {
@@ -90,9 +92,18 @@ class GitHubPlugin extends BadgePlugin {
         });
     }
 
-    async extractGitHubData(owner, repo, type, query, extractPath) {
+    async extractGitHubData(owner, repo, type, query, extractPath, variables = {}) {
         return this.withCache(owner, repo, type, async () => {
-            const response = await this.graphqlRequest({query});
+            // 如果没有提供变量，使用默认的 owner 和 name
+            const queryVariables = variables || {
+                owner,
+                name: repo
+            };
+
+            const response = await this.graphqlRequest({
+                query,
+                variables: queryVariables
+            });
 
             const value = extractPath.reduce((obj, key) => obj?.[key], response);
             return {value: value ?? '解析结果失败'};
@@ -424,6 +435,12 @@ class GitHubPlugin extends BadgePlugin {
             query,
             ['repository', 'defaultBranchRef', 'target', 'committedDate']
         )
+    }
+
+    async getHistoryForStars(owner, repo) {
+        return this.withCache(owner, repo, 'stars_history', async () => {
+            return await this.starHistory.getAllStars(owner, repo);
+        });
     }
 
     getName() {

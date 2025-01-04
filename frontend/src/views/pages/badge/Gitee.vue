@@ -19,7 +19,7 @@
                                 :rules="[
                                   { required: true, message: '请输入 Gitee 用户名或组织名，如 devlive-community' }
                                 ]">
-                  <ShadcnInput v-model="formState.organization" placeholder="请输入 Gitee 用户名或组织名，如 devlive-community"/>
+                  <ShadcnInput v-model="formState.organization" name="organization" placeholder="请输入 Gitee 用户名或组织名，如 devlive-community"/>
                 </ShadcnFormItem>
               </ShadcnCol>
 
@@ -30,7 +30,7 @@
                                 :rules="[
                                   { required: true, message: '请输入 Gitee 仓库名，如 badgehub' }
                                 ]">
-                  <ShadcnInput v-model="formState.repo" placeholder="请输入 Gitee 仓库名，如 badgehub"/>
+                  <ShadcnInput v-model="formState.repo" name="repo" placeholder="请输入 Gitee 仓库名，如 badgehub"/>
                 </ShadcnFormItem>
               </ShadcnCol>
             </ShadcnRow>

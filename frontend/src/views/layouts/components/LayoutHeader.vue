@@ -40,8 +40,26 @@
                             :active="$route.path === '/badge/gitee'"
                             to="/badge/gitee">
               <div class="flex items-center space-x-2">
-                <ShadcnIcon icon="Gitee" size="18"/>
+                <ShadcnIcon icon="Code" size="18"/>
                 <div>Gitee 徽章</div>
+              </div>
+            </ShadcnMenuItem>
+          </ShadcnMenuSub>
+
+          <ShadcnMenuSub name="图表">
+            <template #title>
+              <div class="flex items-center space-x-2">
+                <ShadcnIcon icon="Chart" size="18"/>
+                <div>图表</div>
+              </div>
+            </template>
+
+            <ShadcnMenuItem name="chart-github"
+                            :active="$route.path === '/chart/github'"
+                            to="/chart/github">
+              <div class="flex items-center space-x-2">
+                <ShadcnIcon icon="Github" size="18"/>
+                <div>GitHub 图表</div>
               </div>
             </ShadcnMenuItem>
           </ShadcnMenuSub>

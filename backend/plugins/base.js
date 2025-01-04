@@ -15,29 +15,33 @@ class BadgePlugin {
         this.cacheDir = options.cache?.dir ||
             process.env.BADGE_CACHE_DIR ||
             path.join(os.tmpdir(), '.cache');
+        // 存储基础缓存目录路径
+        this.baseCacheDir = options.cache?.dir ||
+            process.env.BADGE_CACHE_DIR ||
+            path.join(os.tmpdir(), '.cache');
+
         // 默认 5 分钟
         this.cacheTime = options.cache?.time || 5 * 60 * 1000;
-        this._cacheInitialized = false;
 
         this.logger = options.logger || getInstance();
     }
 
-    async ensureCacheDir(owner, repo) {
-        if (!this._cacheInitialized) {
-            try {
-                // 拼接缓冲目录，格式为：/<plugin>/<owner>/<repo>
-                this.cacheDir = path.join(this.cacheDir, this.getName(), owner, repo);
 
-                if (!fs.existsSync(this.cacheDir)) {
-                    this.logger.info(`初始化缓冲目录 ${this.cacheDir}`);
-                    fs.mkdirSync(this.cacheDir, {recursive: true});
-                }
-                this._cacheInitialized = true;
-                this.logger.info(`缓冲目录 ${this.cacheDir} 初始化成功`);
+    async ensureCacheDir(owner, repo) {
+        try {
+            // 每次都基于baseCacheDir构建完整路径
+            this.cacheDir = path.join(this.baseCacheDir, this.getName(), owner, repo);
+
+            if (!fs.existsSync(this.cacheDir)) {
+                this.logger.info(`初始化缓冲目录 ${this.cacheDir}`);
+                fs.mkdirSync(this.cacheDir, {recursive: true});
             }
-            catch (error) {
-                this.logger.error({err: error}, '缓冲目录创建失败');
-            }
+
+            this.logger.info(`缓冲目录 ${this.cacheDir} 初始化成功`);
+        }
+        catch (error) {
+            this.logger.error({err: error}, '缓冲目录创建失败');
+            throw error;
         }
     }
 
@@ -103,10 +107,11 @@ class BadgePlugin {
                 throw new Error(`缓存 ${cacheKey} 不存在，跳过缓存`);
             }
 
+            this.logger.info(`正在读取缓冲文件 ${cacheFile}`);
             const data = fs.readFileSync(cacheFile, 'utf8');
             const cache = JSON.parse(data);
             if (Date.now() - cache.timestamp <= this.cacheTime) {
-                this.logger.info(`缓冲 ${cacheKey} 已被命中，返回缓存数据`);
+                this.logger.info(`仓库 ${owner}/${repo} 缓冲 ${cacheKey} 已被命中，返回缓存数据`);
                 return cache.data;
             }
             else {
@@ -279,6 +284,14 @@ class BadgePlugin {
      * @returns {Promise<void>}
      */
     async getLatestCommitTime(owner, repo) { throw new Error('Not implemented'); }
+
+    /**
+     * 获取 star 历史
+     * @param owner 仓库归属用户
+     * @param repo 仓库名称
+     * @returns {Promise<void>}
+     */
+    async getHistoryForStars(owner, repo) { throw new Error('Not implemented'); }
 }
 
 module.exports = BadgePlugin;

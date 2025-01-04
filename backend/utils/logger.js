@@ -15,7 +15,7 @@ class Logger {
         });
 
         return pino({
-            level: options.level || process.env.LOG_LEVEL || 'info',
+            level: options.level || process.env.LOG_LEVEL || 'debug',
             formatters: {
                 level: (label) => {
                     return {level: label.toUpperCase()};
