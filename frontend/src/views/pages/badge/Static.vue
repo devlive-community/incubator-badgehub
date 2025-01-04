@@ -17,7 +17,8 @@
                                 label="徽章内容"
                                 description="输入徽章的内容，根据 - 进行分割"
                                 :rules="[
-                                  { required: true, message: '请输入徽章内容，格式为 label-value！' }
+                                  { required: true, message: '请输入徽章内容，格式为：标签-内容！' },
+                                  { pattern: /^.+-.+$/, message: '格式：标签-内容，如：构建状态-通过' }
                                 ]">
                   <ShadcnInput v-model="formState.label" placeholder="徽章标签-徽章内容"/>
                 </ShadcnFormItem>
@@ -107,9 +108,16 @@ const formState = ref({
 
 const onSubmit = () => {
   loading.value = true
-  request.get(`/badge/${ formState.value.label }.svg`, formState)
+  request.get(`/badge/${ formState.value.label }.svg`, {
+    params: {
+      labelColor: formState.value.labelColor,
+      descriptionColor: formState.value.descriptionColor,
+      logo: formState.value.logo
+    }
+  })
          .then(response => {
            svgContent.value = response
+
            const root = window.location.origin
            path.value = {
              URL: `${ root }/api/badge/${ formState.value.label }.svg`,

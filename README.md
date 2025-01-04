@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="frontend/static/images/logo.svg" width="100" alt="Badge Hub">
+<img src="frontend/public/static/images/logo.svg" width="100" alt="Badge Hub">
 
 ### Badge Hub
 

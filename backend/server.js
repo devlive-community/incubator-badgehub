@@ -30,11 +30,11 @@ app.use((req, res, next) => {
 app.use('/api', routes);
 
 // 设置静态文件目录 - 指向 Vue 构建后的文件
-app.use(express.static(path.join(__dirname, '../../frontend/dist')));
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 // 所有其他请求返回 index.html
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
 // 错误处理中间件
