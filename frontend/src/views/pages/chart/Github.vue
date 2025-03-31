@@ -106,8 +106,8 @@ const onSubmit = () => {
            const root = window.location.origin
            path.value = {
              URL: `${ root }/api/chart/github/${ formState.value.organization }/${ formState.value.repo }.svg`,
-             Markdown: `![Static Badge](${ root }/api/chart/github/${ formState.value.organization }/${ formState.value.repo }.svg)`,
-             HTML: `<img alt="Static Badge" src="${ root }/api/chart/github/${ formState.value.organization }/${ formState.value.repo }.svg"/>`
+             Markdown: `![Github Chart](${ root }/api/chart/github/${ formState.value.organization }/${ formState.value.repo }.svg)`,
+             HTML: `<img alt="Github Chart" src="${ root }/api/chart/github/${ formState.value.organization }/${ formState.value.repo }.svg"/>`
            }
          })
          .finally(() => loading.value = false)

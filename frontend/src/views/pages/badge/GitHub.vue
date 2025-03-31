@@ -53,7 +53,9 @@
               <ShadcnCol span="12">
                 <ShadcnFormItem name="type" label="指标类型">
                   <ShadcnToggleGroup v-model="formState.type">
-                    <ShadcnToggle v-for="type in types" :value="type.value">{{ type.label }}</ShadcnToggle>
+                    <ShadcnSpace wrap>
+                      <ShadcnToggle v-for="type in types" :value="type.value">{{ type.label }}</ShadcnToggle>
+                    </ShadcnSpace>
                   </ShadcnToggleGroup>
                 </ShadcnFormItem>
               </ShadcnCol>
@@ -150,7 +152,7 @@ const onSubmit = () => {
     labelColor: formState.value.labelColor,
     descriptionColor: formState.value.descriptionColor,
     logo: formState.value.logo,
-    type: [...formState.value.type][0]
+    type: formState.value.type
   }
 
   request.get(`/github/${ formState.value.organization }/${ formState.value.repo }.svg`, { params: params })
